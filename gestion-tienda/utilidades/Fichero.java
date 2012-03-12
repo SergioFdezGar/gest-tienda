@@ -1,4 +1,4 @@
-package controladorDao;
+package utilidades;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * 
  */
 
-public class ControladorDao {
+public class Fichero {
 	private static File fichero;
 	private static RandomAccessFile canalSalida;
 
@@ -57,31 +57,20 @@ public class ControladorDao {
 
 	
 	
-	public static ArrayList<String[]> leerArchivo(int i){
-		String[] atributos = new String[i];
-		ArrayList<String[]> objetos = new ArrayList<String[]>();
+	public static ArrayList<String> leerLinea(long pos){
+		
+		ArrayList <String> lectura= new ArrayList<String>();
 		
 //------------------------------------------------------------------------------
 		try {
 			// Creamos el canal de acceso direccto al fichero.
-			canalSalida = new RandomAccessFile(fichero, "rw");
-
 			// Comprobamos si el archivo existe.
 			if (fichero.exists()) {
 				//Nos colocamos al principio del fichero.
-				canalSalida.seek(0);
-				//Lectura de las dos primeras líneas.
-				canalSalida.readLine();
-				canalSalida.readLine();
-				
-				
-				//Después de leer las dos primeras líneas empezamos a recopilas datos.
-				while(canalSalida.getFilePointer() < canalSalida.length()){
-					//La primera lectura es para el identificador del atributo
-					canalSalida.readLine();
-					//La segunda es el valor del atributo
-					atributos[0]=canalSalida.readLine();
-				}
+				canalSalida.seek(pos);
+				//Lectura de la línea.
+				lectura.add(0, canalSalida.readLine());
+				lectura.add(1,Long.toString(canalSalida.getFilePointer()));
 				
 			} else {
 				System.out.println("No existe el archivo");
@@ -101,7 +90,7 @@ public class ControladorDao {
 
 //------------------------------------------------------------------------------
 		
-		return objetos;
+		return lectura;
 	}
 	
 	

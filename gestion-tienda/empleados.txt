@@ -1,0 +1,14 @@
+empleados:
+2
+nombre:
+jesus
+codigo:
+1235
+password:
+pOzi1
+nombre:
+arturo
+codigo:
+1234
+password:
+pozno

@@ -3,7 +3,9 @@
  */
 package main;
 
-import gestionEmpleado.*;
+import gestionEmpleados.*;
+import gestionVentas.*;
+
 import java.util.Scanner;
 
 /**
@@ -21,18 +23,30 @@ public class Main {
 		int opcion;
 		boolean valido;
 		// Arranque del sub_sistema de Empleados
-		// Arranque del sub-sistema de Ventas
+		GestorEmpleado ges_empleado= new GestorEmpleado("empleados.txt");
+		ges_empleado.recuperar();
 		
+		// Arranque del sub-sistema de GestorVentas
+		GestorVentas ges_ventas=new GestorVentas("productos.txt");
+		ges_ventas.recuperar();
 		// Solicitud del usuario y password.
+		
+		
 		do{
 			//Bucle para solicitud de los datos.
-			//Parte
 			
-			System.out.print("\n \t\t Autentificacion... \n");
-			valido=true;
+			System.out.println("\n\t=========[Sistema de Autenticacion]=========\n");
+			valido=autenticacion(ges_empleado);
+			
+			if(!valido){
+				System.out.println("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
+			}
+			
 			
 			//Bucle para mostrar el menú principal y dentro de él, los sub-menus
 			while((valido)){
+				
+				
 				//Mostramos el menu principal
 				opcion=menuPrincipal();
 				
@@ -73,7 +87,8 @@ public class Main {
 					case 2: //Modificar producto
 						
 							// Primero listar los productos
-						
+							System.out.println("LISTADO PRODUCTOS....");
+							System.out.print(ges_ventas.listar());
 							//Solicitar el codigo del producto (y comprobaciones posteriores)
 							//funcion para leer el codigo--> AQUI
 						
@@ -86,11 +101,11 @@ public class Main {
 							break;
 					
 					case 3: //Cambiar contraseña
-							cambioPass(null);
+							cambioPass(ges_empleado);
 							break;
 						
 					case 4: //Log Out
-							valido=false;
+							valido=ges_empleado.logOut();
 							break;
 					
 					default: //  Volver a solicitar un valor correcto
@@ -103,9 +118,27 @@ public class Main {
 
 	}
 
+	private static boolean autenticacion(GestorEmpleado gest_emp){
+		int cod=0;
+		String pass=null;
+		boolean b = false;
+		
+		System.out.print("  -> Codigo de acceso: ");
+		cod=Integer.parseInt(leer.next());
+		System.out.print("  -> Password: ");
+		pass=leer.next();
+		
+		if(gest_emp.logIn(cod, pass)>=0){
+			b=true;
+		}
+		
+		return b;
+	}
+	
 	private static int menuPrincipal() {
 		int opcion;
 		
+		System.out.println("\n\n\t=========[Menú Principal]=========\n");
 		System.out.println("1. Hacer pedido");
 		System.out.println("2. Modificar producto");
 		System.out.println("3. Cambiar contraseña empleado");
@@ -135,22 +168,41 @@ public class Main {
 		
 		System.out.println("1. Modificar nombre");
 		System.out.println("2. Modificar precio");
-		System.out.println("3. Imprimir factura");
-		System.out.println("4. Modificar código");
-		System.out.printf("  Elija una opción [1-4]: ");
+		System.out.println("3. Modificar código");
+		System.out.printf("  Elija una opción [1-3]: ");
 		
 		opcion=leer.nextInt();
 		return opcion;
 	}	
 	
-	private static void cambioPass(Empleado usuario) {
-		String nueva;
+	private static boolean cambioPass(GestorEmpleado ges_emp) {
+		boolean correcto=false;
 		
-		System.out.printf("Introduzca nueva password: ");
-		nueva=leer.next();
+		String nueva=null;
+		String repeticion=null;
 		
-		System.out.printf("La contraseña introducida es: "+nueva);
-		//Parte en la que se llama a un método del sub-sistema de Empleados
+		System.out.println("\n\n\t=========[Modificar Password]=========\n");
 		
+		do{
+			System.out.print("Introduzca nueva password: ");
+			nueva=leer.next();
+			System.out.print("Repita nueva password: ");
+			repeticion=leer.next();
+			
+			if(nueva.equals(repeticion)){
+				ges_emp.modificarPass(nueva);
+				System.out.println("\n  [!] Password modificada [!]\n\n");
+				correcto=true;
+			}
+			else{
+				System.out.println("\n  [!] Password no coincide, intentelo de nuevo [!]\n\n");
+			}
+			
+		}while(!correcto);
+		
+		return correcto;
 	}
+	
+	
+	
 }
