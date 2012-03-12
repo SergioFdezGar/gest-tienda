@@ -1,0 +1,14 @@
+productos:
+2
+codigo: 
+1524
+nombre: 
+champu
+precio: 
+12.3
+codigo: 
+1523
+nombre: 
+gel
+precio: 
+12.8

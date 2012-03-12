@@ -1,4 +1,4 @@
-package gestionEmpleado;
+package gestionEmpleados;
 /**
  * 
  */
@@ -17,6 +17,10 @@ public class Empleado {
 		cod_acceso=id;
 		nombre=nom;
 		password=pass;
+	}
+
+	public Empleado() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
