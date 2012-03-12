@@ -15,6 +15,7 @@ public class GestorEmpleado {
 	}
 	
 	public  void recuperar() throws IOException{
+		list_empleados=null;
 		list_empleados=emp_dao.recuperar();
 	}
 		
