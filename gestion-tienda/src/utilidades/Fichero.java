@@ -130,6 +130,7 @@ public class Fichero {
 	public void escribir(String cad) throws IOException {
 
 		// Comprobamos si el archivo existe.
+		setModo("rw");
 		if (fichero.exists()) {
 			// Nos movemos a la ultima posición del archivo.
 			canal_IO.seek(fichero.length());
@@ -151,7 +152,7 @@ public class Fichero {
 	 */
 	public void cerrar(File fich) throws IOException {
 			//Si da problemas a la hora de cerrar el archivo descomentar la linea de abajo
-			canal_IO = new RandomAccessFile(fich, "r");
+			//canal_IO = new RandomAccessFile(fich, "r");
 			canal_IO.close();
 	}
 
