@@ -8,6 +8,7 @@ import gestionVentas.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -65,7 +66,9 @@ public class Main {
 							
 								//Realizar bucle *1
 									//Mostrar el menú
-									menuPedido();
+									System.out.println("Cuantos productos desea comprar?");
+									int cantidad=leer.nextInt();
+									pedido(ges_ventas,cantidad);
 									
 									// Si se añade pedido (opcion 1)
 									//  --> Listado cde los productos
@@ -153,29 +156,26 @@ public class Main {
 	private static int menuPrincipal() {
 		int opcion;
 		
-		System.out.println("\n\n\t=========[Menú Principal]=========\n");
+		System.out.println("\n\n\t=========[Menu Principal]=========\n");
 		System.out.println("1. Hacer pedido");
 		System.out.println("2. Modificar producto");
-		System.out.println("3. Cambiar contraseña empleado");
+		System.out.println("3. Cambiar contrase�a empleado");
 		System.out.println("4. Log out");
-		System.out.printf("  Elija una opción [1-4]: ");
+		System.out.printf("  Elija una opcion [1-4]: "+"\n");
 		
 		opcion=leer.nextInt();
 		return opcion;
 	}
 
 	
-	private static int menuPedido() {
-		int opcion;
+	private static void menuPedido() {
 		
-		System.out.println("1.1 Añadir pedido");
+		System.out.println("1.1 A�adir pedido");
 		System.out.println("1.2 Visualizar precio total");
 		System.out.println("1.3 Imprimir factura");
 		System.out.println("1.4 Terminar pedido");
-		System.out.printf("  Elija una opción [1-4]: ");
+		System.out.printf("  Elija una opcion [1-4]: "+"\n");
 		
-		opcion=leer.nextInt();
-		return opcion;
 	}
 	
 	private static int menuModificarProducto() {
@@ -184,7 +184,7 @@ public class Main {
 		System.out.println("1. Modificar nombre");
 		System.out.println("2. Modificar precio");
 		System.out.println("3. Modificar código");
-		System.out.printf("  Elija una opción [1-3]: ");
+		System.out.printf("  Elija una opción [1-3]: "+"\n");
 		
 		opcion=leer.nextInt();
 		return opcion;
@@ -232,6 +232,52 @@ public class Main {
 	private static void errorGesEmpleados(){
 		System.out.println("\n\t\t[!] ERROR: No se ha podido cargar a los EMPLEADOS [!]\n");
 		System.out.println("Se ha detenido la ejecucion del programa");		
+	}
+	
+	private static void pedido(GestorVentas ges_ventas, int cantidad){
+		int opcion;
+		ArrayList<Producto> factura=new ArrayList<Producto>();
+		
+		do{
+			menuPedido();
+			opcion=leer.nextInt();
+			switch(opcion){
+			
+			case 1:
+				System.out.println("La lista de productos en la tienda es: "+ges_ventas.listar());
+				
+				for(int i=1;i<=cantidad;i++){
+					
+					if(i!=1){
+						System.out.println("Introduce el numero del producto que desee a�adir a la posicion "+i);
+						opcion=leer.nextInt();
+						System.out.println("El producto seleccionado es "+ges_ventas.consultar_nombre(opcion));
+						ges_ventas.a�adir_factura(opcion);
+					}
+					else{
+						System.out.println("Introduce el numero del producto que desee a�adir a la posicion "+i);
+						opcion=leer.nextInt();
+						System.out.println("El producto seleccionado es "+ges_ventas.consultar_nombre(opcion));
+						ges_ventas.a�adir_factura(opcion);
+					}
+				}//Fin del for
+				break;
+			case 2:
+				System.out.println("El precio total es:"+ges_ventas.calculo_factura()+"�\n");
+				break;
+			case 3:
+				System.out.println("\n\n\t\t=========[SHOP]=========\n");
+				ArrayList<Producto> fact=ges_ventas.get_factura();
+				for(int i=0;i<fact.size();i++){
+				System.out.println("\t\t"+fact.get(i).get_codigo()+"\t"+fact.get(i).get_nombre()+"\t\t"+fact.get(i).get_precio()+" �");
+				}
+				System.out.println("\t\t------------------------");
+				System.out.println("\t\tTotal Precio:\t\t"+ges_ventas.calculo_factura()+" �"+"\n");
+				break;
+		    
+			}
+			
+		}while(opcion!=4);
 	}
 	
 }
