@@ -6,37 +6,51 @@ public class Producto {
 	private String nombre;
 	private double precio;
 
-	public Producto() {
-		// TODO Auto-generated constructor stub
+//Constructor
+	
+	public Producto(){
+		
 	}
 	
-	public Producto(int codigo, String nombre, double precio){		
+	public Producto(int codigo, String nombre, double precio){
+		
 		this.codigo=codigo;
 		this.nombre=nombre;
 		this.precio=precio;
 	}//Fin constructor
+
+//Metodos de consulta y modificacion del codigo
 	
 	public int get_codigo(){
+		
 		return codigo;
 	}
 	
 	public void set_codigo(int codg){
+		
 		codigo=codg;
 	}
+
+//Metodos de consulta y modificacion del nombre
 	
 	public String get_nombre(){
+		
 		return nombre;
 	}
 	
 	public void set_nombre(String nomb){
+		
 		nombre=nomb;
 	}
+
+//Metodos de consulta y modificacion del precio
 	
 	public double get_precio(){
 		return precio;
 	}
 	
 	public void set_precio(double prec){
+		
 		precio=prec;
 	}
 

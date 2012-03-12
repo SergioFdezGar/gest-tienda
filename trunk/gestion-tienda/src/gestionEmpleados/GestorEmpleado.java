@@ -1,7 +1,8 @@
 package gestionEmpleados;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import controladorDao.EmpleadoDao;
 
 public class GestorEmpleado {
 
@@ -9,12 +10,12 @@ public class GestorEmpleado {
 	private EmpleadoDao emp_dao;
 	private int emp_activo=-1;
 	
-	public GestorEmpleado(String fich){
+	public GestorEmpleado(String fich) throws FileNotFoundException{
 		emp_dao=new EmpleadoDao(fich);
 	}
 	
-	public  void recuperar(){
-		list_empleados=emp_dao.recuperarEmpleados();
+	public  void recuperar() throws IOException{
+		list_empleados=emp_dao.recuperar();
 	}
 		
 	
@@ -37,12 +38,12 @@ public class GestorEmpleado {
 		return false;
 	}
 	
-	public void guardar(){
-		emp_dao.guardarEmpleados(list_empleados);
+	public void guardar() throws IOException{
+		emp_dao.guardar(list_empleados);
 	}
 	
 
-	public void modificarPass(String pass){
+	public void modificarPass(String pass) throws IOException{
 		if(emp_activo>=0){
 			list_empleados.get(emp_activo).setPassword(pass);
 			guardar();
@@ -50,5 +51,4 @@ public class GestorEmpleado {
 	}
 	
 	
-
 }

@@ -1,7 +1,8 @@
 package gestionVentas;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import controladorDao.ProductoDao;
 
 public class GestorVentas {
 
@@ -9,13 +10,13 @@ public class GestorVentas {
 	private ProductoDao produ_dao;
 	private String lista = "\n";
 
-	public GestorVentas(String fich) {
+	public GestorVentas(String fich) throws FileNotFoundException {
 		produ_dao = new ProductoDao(fich);
 	}
 
 	
-	public void recuperar(){
-		list_productos=produ_dao.recuperarProductos();
+	public void recuperar() throws IOException{
+		list_productos=produ_dao.recuperar();
 	}
 	
 	public String listar() {
