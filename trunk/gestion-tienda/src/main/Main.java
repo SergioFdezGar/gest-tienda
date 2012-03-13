@@ -159,7 +159,7 @@ public class Main {
 		System.out.println("\n\n\t=========[Menu Principal]=========\n");
 		System.out.println("1. Hacer pedido");
 		System.out.println("2. Modificar producto");
-		System.out.println("3. Cambiar contraseña empleado");
+		System.out.println("3. Cambiar contraseï¿½a empleado");
 		System.out.println("4. Log out");
 		System.out.printf("  Elija una opcion [1-4]: "+"\n");
 		
@@ -170,7 +170,7 @@ public class Main {
 	
 	private static void menuPedido() {
 		
-		System.out.println("1.1 Añadir pedido");
+		System.out.println("1.1 Aï¿½adir pedido");
 		System.out.println("1.2 Visualizar precio total");
 		System.out.println("1.3 Imprimir factura");
 		System.out.println("1.4 Terminar pedido");
@@ -249,30 +249,30 @@ public class Main {
 				for(int i=1;i<=cantidad;i++){
 					
 					if(i!=1){
-						System.out.println("Introduce el numero del producto que desee añadir a la posicion "+i);
+						System.out.println("Introduce el numero del producto que desee aï¿½adir a la posicion "+i);
 						opcion=leer.nextInt();
 						System.out.println("El producto seleccionado es "+ges_ventas.consultar_nombre(opcion));
-						ges_ventas.añadir_factura(opcion);
+						ges_ventas.aniadir_factura(opcion);
 					}
 					else{
-						System.out.println("Introduce el numero del producto que desee añadir a la posicion "+i);
+						System.out.println("Introduce el numero del producto que desee aï¿½adir a la posicion "+i);
 						opcion=leer.nextInt();
 						System.out.println("El producto seleccionado es "+ges_ventas.consultar_nombre(opcion));
-						ges_ventas.añadir_factura(opcion);
+						ges_ventas.aniadir_factura(opcion);
 					}
 				}//Fin del for
 				break;
 			case 2:
-				System.out.println("El precio total es:"+ges_ventas.calculo_factura()+"€\n");
+				System.out.println("El precio total es:"+ges_ventas.calculo_factura()+"ï¿½\n");
 				break;
 			case 3:
 				System.out.println("\n\n\t\t=========[SHOP]=========\n");
 				ArrayList<Producto> fact=ges_ventas.get_factura();
 				for(int i=0;i<fact.size();i++){
-				System.out.println("\t\t"+fact.get(i).get_codigo()+"\t"+fact.get(i).get_nombre()+"\t\t"+fact.get(i).get_precio()+" €");
+				System.out.println("\t\t"+fact.get(i).get_codigo()+"\t"+fact.get(i).get_nombre()+"\t\t"+fact.get(i).get_precio()+" ï¿½");
 				}
 				System.out.println("\t\t------------------------");
-				System.out.println("\t\tTotal Precio:\t\t"+ges_ventas.calculo_factura()+" €"+"\n");
+				System.out.println("\t\tTotal Precio:\t\t"+ges_ventas.calculo_factura()+" ï¿½"+"\n");
 				break;
 		    
 			}

@@ -23,7 +23,7 @@ public class GestorVentas {
 	public String listar() {
 		for (int i = 0; i < list_productos.size(); i++) {
 			lista = lista + "(" + i + ") " + list_productos.get(i).get_nombre()
-					+ "    " + list_productos.get(i).get_precio() + "€" + "\n";
+					+ "    " + list_productos.get(i).get_precio() + "ï¿½" + "\n";
 		}
 		return lista;
 	}
@@ -56,7 +56,7 @@ public class GestorVentas {
 		return list_productos.get(i).get_precio();
 	}
 	
-	public void añadir_factura(int i){
+	public void aniadir_factura(int i){
 		factura.add(list_productos.get(i));
 	}
 	
