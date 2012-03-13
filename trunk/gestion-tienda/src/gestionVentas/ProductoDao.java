@@ -53,7 +53,7 @@ public class ProductoDao {
 		
 		fichero.crearArchivo(path, "rw");
 		
-		fichero.escribir(":\n"+list_productos.size());
+		fichero.escribir("productos:\n"+list_productos.size());
 
 		for (int i = 0; i < list_productos.size(); i++) {
 			fichero.escribir("\ncodigo:\n"
