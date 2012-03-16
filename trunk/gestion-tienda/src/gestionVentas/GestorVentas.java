@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class GestorVentas {
 
     private ArrayList<Producto> list_productos;
-    private ProductoDao produ_dao;
     private ArrayList<Producto> factura = new ArrayList<Producto>();
+    private ProductoDao produ_dao;
 
     public GestorVentas(String fich) throws FileNotFoundException {
 	produ_dao = new ProductoDao(fich);
@@ -46,7 +46,7 @@ public class GestorVentas {
 	return list_productos.get(i).get_precio();
     }
 
-    public void aniadir_factura(int i) {
+    public void facturar(int i) {
 	factura.add(list_productos.get(i));
     }
 
@@ -94,6 +94,27 @@ public class GestorVentas {
 
     public int totalProductos() {
 	return list_productos.size();
+    }
+
+    public int comprobarFactura(int opcion) {
+	int posicion = -1;
+
+	/* Buscamos en la lista si coincide con algun empleado. */
+	for (int i = 0; i < factura.size(); i++) {
+	    if (factura.get(i).get_codigo() == consultar_codigo(opcion)) {
+		posicion = i;
+		break;
+	    }
+	}
+	return posicion;
+    }
+
+    public int totalProductosFactura() {
+	return factura.size();
+    }
+
+    public void eliminarFactura() {
+	this.factura = new ArrayList<Producto>();
     }
 
 }
