@@ -48,4 +48,13 @@ public class GestorEmpleado {
 	}
     }
 
+    public String nombreActivo() {
+	String nombre = null;
+
+	if (emp_activo >= 0) {
+	    nombre = list_empleados.get(emp_activo).getNombre();
+	}
+	return nombre;
+    }
+
 }
