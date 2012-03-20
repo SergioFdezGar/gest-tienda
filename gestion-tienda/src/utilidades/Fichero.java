@@ -25,6 +25,10 @@ public class Fichero {
     private File fichero;
     private RandomAccessFile canal_IO;
 
+    /**
+     * Constructor por defecto
+     * 
+     */
     public Fichero() {
 	fichero = null;
 	canal_IO = null;

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import utilidades.Utilidades;
+
 /**
  * @author Sergio Fernandez y Alberto Granados
  * 
@@ -26,6 +28,7 @@ import java.util.Scanner;
  */
 public class Main {
 
+    // private static Utilidades inOut = new Utilidades();
     private static Scanner leer = new Scanner(System.in);
 
     /**
@@ -48,13 +51,14 @@ public class Main {
 	    do {
 		// Bucle para solicitud de los datos.
 
-		System.out
-			.println("\n\t=========[Sistema de Autenticacion]=========\n");
+		Utilidades
+			.imprimirLinea("\n\t=========[Sistema de Autenticacion]=========\n");
+
 		valido = autenticacion(ges_empleado);
 
 		if (!valido) {
-		    System.out
-			    .println("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
+		    Utilidades
+			    .imprimirLinea("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
 		}
 
 		/**
@@ -80,16 +84,16 @@ public class Main {
 			// Solicitar cual es el producto a modificar
 
 			do {
-			    System.out
-				    .print("\n  # del producto a modificar? [0-"
+			    Utilidades
+				    .imprimirLinea("\n  # del producto a modificar? [0-"
 					    + (ges_ventas.totalProductos() - 1)
 					    + "]: ");
-			    producto = leer.nextInt();
+			    producto = Utilidades.leerInt(null);
 
 			    if (producto < 0
 				    || producto > (ges_ventas.totalProductos() - 1)) {
-				System.out
-					.printf("\n\t[!] NO EXISTE EL PRODUCTO, respete el rango mostrado. [!]\n");
+				Utilidades
+					.imprimirLinea("\n\t[!] NO EXISTE EL PRODUCTO, respete el rango mostrado. [!]\n");
 			    }
 
 			} while (producto < 0
@@ -110,8 +114,8 @@ public class Main {
 			break;
 
 		    default: // Volver a solicitar un valor correcto
-			System.out
-				.println("\n\t[!] El valor es incorrecto, elija [1-4] [!]\n");
+			Utilidades
+				.imprimirLinea("\n\t[!] El valor es incorrecto, elija [1-4] [!]\n");
 		    }
 		}
 
@@ -135,12 +139,12 @@ public class Main {
 	int maximo = ges_ventas.totalProductos(); /* Productos disponibles */
 
 	do {
-	    System.out.print("\nCuantos productos desea comprar? ");
-	    cantidad = leer.nextInt();
+	    cantidad = Utilidades
+		    .leerInt("\nCuantos productos desea comprar? ");
 
 	    if (cantidad < 1 || cantidad > maximo) {
-		System.out.print("\n\t[!] Comom minimo 1, maximo " + maximo
-			+ ". [!]\n");
+		Utilidades.imprimirLinea("\n\t[!] Comom minimo 1, maximo "
+			+ maximo + ". [!]\n");
 	    }
 
 	} while (cantidad < 1 || cantidad > maximo);
@@ -158,24 +162,26 @@ public class Main {
 		break;
 
 	    case 2: /* Mostramos el total de la factura */
-		System.out.println("\nEl precio total es:"
+		Utilidades.imprimirLinea("\nEl precio total es:"
 			+ ges_ventas.calculo_factura() + " Euros\n");
 		break;
 
 	    case 3:
-		System.out.println("\n\n\t\t=========[FACTURA]=========\n");
+		Utilidades
+			.imprimirLinea("\n\n\t\t=========[FACTURA]=========\n");
 		ArrayList<Producto> fact = ges_ventas.get_factura();
 		for (int i = 0; i < fact.size(); i++) {
-		    System.out.println("\t\t" + fact.get(i).get_codigo() + "\t"
-			    + fact.get(i).get_nombre() + "\t\t"
+		    Utilidades.imprimirLinea("\t\t" + fact.get(i).get_codigo()
+			    + "\t" + fact.get(i).get_nombre() + "\t\t"
 			    + fact.get(i).get_precio() + " Euros");
 		}
-		System.out.println("\t\t-----------------------------------");
-		System.out.println("\t\tTotal Precio:\t\t"
+		Utilidades
+			.imprimirLinea("\t\t-----------------------------------");
+		Utilidades.imprimirLinea("\t\tTotal Precio:\t\t"
 			+ ges_ventas.calculo_factura() + " Euros" + "\n");
 
 		/* Agregamos el empleado que realiza el pedido */
-		System.out.println("\t\tAtendido por: "
+		Utilidades.imprimirLinea("\t\tAtendido por: "
 			+ ges_empleado.nombreActivo());
 		break;
 
@@ -196,12 +202,12 @@ public class Main {
 
 	do {
 
-	    System.out.print("  Introduza nuevo ");
+	    Utilidades.imprimir("  Introduza nuevo ");
 
 	    switch (seleccion) {
 	    case 1: // Nombre
-		System.out.print(" nombre: ");
-		String nombre = leer.next();
+		Utilidades.imprimir(" nombre: ");
+		String nombre = Utilidades.lectura();
 
 		if (ges_ventas.posNombre(nombre) < 0) {
 		    ges_ventas.modificar_nombre(producto, nombre);
@@ -211,16 +217,14 @@ public class Main {
 		break;
 
 	    case 2: // Precio
-		System.out.print(" precio: ");
-		double precio = leer.nextDouble();
+		double precio = Utilidades.leerDouble(" precio: ");
 		ges_ventas.modificar_precio(producto, precio);
 		cambio = true;
 
 		break;
 
 	    case 3: // Codigo
-		System.out.print(" codigo: ");
-		int codigo = leer.nextInt();
+		int codigo = Utilidades.leerInt(" codigo: ");
 		if (ges_ventas.posCodigo(codigo) < 0) {
 		    ges_ventas.modificar_codigo(producto, codigo);
 		    cambio = true;
@@ -230,11 +234,11 @@ public class Main {
 	    }
 
 	    if (cambio) {
-		System.out
-			.println("El producto ha sido modificado satisfactoriamente.");
+		Utilidades
+			.imprimirLinea("El producto ha sido modificado satisfactoriamente.");
 	    } else {
-		System.out
-			.println("El campo que desea modificar ya existe, vuelva a intentarlo.");
+		Utilidades
+			.imprimirLinea("El campo que desea modificar ya existe, vuelva a intentarlo.");
 	    }
 
 	} while (!cambio);
@@ -246,10 +250,9 @@ public class Main {
 	String pass = null;
 	boolean b = false;
 
-	System.out.print("  -> Codigo de acceso: ");
-	cod = Integer.parseInt(leer.next());
-	System.out.print("  -> Password: ");
-	pass = leer.next();
+	cod = Utilidades.leerInt("  -> Codigo de acceso: ");
+	Utilidades.imprimir("  -> Password: ");
+	pass = Utilidades.lectura();
 
 	if (gest_emp.logIn(cod, pass) >= 0) {
 	    b = true;
@@ -262,18 +265,18 @@ public class Main {
 	int opcion;
 
 	do {
-	    System.out.println("\n\n\t=========[Menu Principal]=========\n");
-	    System.out.println("1. Hacer pedido");
-	    System.out.println("2. Modificar producto");
-	    System.out.println("3. Cambiar password empleado");
-	    System.out.println("4. Log out");
-	    System.out.printf("  Elija una opcion [1-4]: ");
+	    Utilidades
+		    .imprimirLinea("\n\n\t=========[Menu Principal]=========\n");
+	    Utilidades.imprimirLinea("1. Hacer pedido");
+	    Utilidades.imprimirLinea("2. Modificar producto");
+	    Utilidades.imprimirLinea("3. Cambiar password empleado");
+	    Utilidades.imprimirLinea("4. Log out");
 
-	    opcion = leer.nextInt();
+	    opcion = Utilidades.leerInt("  Elija una opcion [1-4]: ");
 
 	    if (opcion < 1 || opcion > 4) {
-		System.out
-			.printf("\n\t[!] VALOR INCORRECTO, respete el intervalo [!]\n");
+		Utilidades
+			.imprimir("\n\t[!] VALOR INCORRECTO, respete el intervalo [!]\n");
 	    }
 
 	} while (opcion < 1 || opcion > 4);
@@ -285,18 +288,18 @@ public class Main {
 	int opcion;
 
 	do {
-	    System.out.println("\n\n\t\t=========[HACER PEDIDO]=========\n");
-	    System.out.println("1.1 Agregar pedido");
-	    System.out.println("1.2 Visualizar precio total");
-	    System.out.println("1.3 Imprimir factura");
-	    System.out.println("1.4 Terminar pedido");
-	    System.out.printf("  Elija una opcion [1-4]: ");
+	    Utilidades
+		    .imprimirLinea("\n\n\t\t=========[HACER PEDIDO]=========\n");
+	    Utilidades.imprimirLinea("1.1 Agregar pedido");
+	    Utilidades.imprimirLinea("1.2 Visualizar precio total");
+	    Utilidades.imprimirLinea("1.3 Imprimir factura");
+	    Utilidades.imprimirLinea("1.4 Terminar pedido");
 
-	    opcion = leer.nextInt();
+	    opcion = Utilidades.leerInt("  Elija una opcion [1-4]: ");
 
 	    if (opcion < 1 || opcion > 4) {
-		System.out
-			.printf("\n\t[!] VALOR INCORRECTO, por favor, respete el intervalo [!]\n");
+		Utilidades
+			.imprimir("\n\t[!] VALOR INCORRECTO, por favor, respete el intervalo [!]\n");
 	    }
 
 	} while (opcion < 1 || opcion > 4);
@@ -309,17 +312,16 @@ public class Main {
 	int opcion;
 
 	do {
-	    System.out.println("\n\n\t==>[Modificar Producto]<==\n");
-	    System.out.println("1. Modificar nombre");
-	    System.out.println("2. Modificar precio");
-	    System.out.println("3. Modificar codigo");
-	    System.out.print("  Elija una opción [1-3]: ");
+	    Utilidades.imprimirLinea("\n\n\t==>[Modificar Producto]<==\n");
+	    Utilidades.imprimirLinea("1. Modificar nombre");
+	    Utilidades.imprimirLinea("2. Modificar precio");
+	    Utilidades.imprimirLinea("3. Modificar codigo");
 
-	    opcion = leer.nextInt();
+	    opcion = Utilidades.leerInt("  Elija una opción [1-3]: ");
 
 	    if (opcion < 1 || opcion > 3) {
-		System.out
-			.printf("\n\t[!] VALOR INCORRECTO, respete el intervalo [!]\n");
+		Utilidades
+			.imprimir("\n\t[!] VALOR INCORRECTO, respete el intervalo [!]\n");
 	    }
 
 	} while (opcion < 1 || opcion > 3);
@@ -334,7 +336,8 @@ public class Main {
 	String nueva = null;
 	String repeticion = null;
 
-	System.out.println("\n\n\t=========[Modificar Password]=========\n");
+	Utilidades
+		.imprimirLinea("\n\n\t=========[Modificar Password]=========\n");
 
 	do {
 	    System.out.print("Introduzca nueva password: ");
@@ -353,11 +356,11 @@ public class Main {
 		    e.printStackTrace();
 		    errorIo();
 		}
-		System.out.println("\n  [*] Password modificada [*]\n\n");
+		Utilidades.imprimirLinea("\n  [*] Password modificada [*]\n\n");
 		correcto = true;
 	    } else {
-		System.out
-			.println("\n  [!] Password no coincide, intentelo de nuevo [!]\n\n");
+		Utilidades
+			.imprimirLinea("\n  [!] Password no coincide, intentelo de nuevo [!]\n\n");
 	    }
 
 	} while (!correcto);
@@ -366,15 +369,15 @@ public class Main {
     }
 
     private static void errorFile() {
-	System.out
-		.println("\n\t\t[!] ERROR: No se han podido cargar los archivos necesarios. [!]\n");
-	System.out
-		.println("\n\t\t[*] Se ha detenido la ejecucion del programa. [*]");
+	Utilidades
+		.imprimirLinea("\n\t\t[!] ERROR: No se han podido cargar los archivos necesarios. [!]\n");
+	Utilidades
+		.imprimirLinea("\n\t\t[*] Se ha detenido la ejecucion del programa. [*]");
     }
 
     private static void errorIo() {
-	System.out
-		.println("\n\t\t[!] ATENCION: Proceso en el archivo NO completado. [!]\n");
+	Utilidades
+		.imprimirLinea("\n\t\t[!] ATENCION: Proceso en el archivo NO completado. [!]\n");
 
     }
 
@@ -385,25 +388,24 @@ public class Main {
 	/* Verificamos que se pueden meter mas productos en la factura */
 	if (cantidad == ges_ventas.totalProductosFactura()) {
 	    /* Mensaje de error y vuelta al primer menu */
-	    System.out
-		    .printf("\n\t[!] ATENCION: No puede agregar mas productos [!]\n");
+	    Utilidades
+		    .imprimirLinea("\n\t[!] ATENCION: No puede agregar mas productos [!]\n");
 	    return;
 	}
 
 	listarProductos(ges_ventas);
 
 	do {
-	    System.out.print("\nQue producto desea agregar?: ");
-	    prod_selec = leer.nextInt();
+	    prod_selec = Utilidades.leerInt("\nQue producto desea agregar?: ");
 
 	    if (prod_selec < 0 || prod_selec > maximo) {
-		System.out.printf("\n\t[!] Producto fuera de rango [!]\n");
+		Utilidades.imprimir("\n\t[!] Producto fuera de rango [!]\n");
 	    } else {
 		/* Comprobar si se ha introducido antes el producto. */
 		if (ges_ventas.comprobarFactura(prod_selec) >= 0) {
 		    /* Mensaje de error */
-		    System.out
-			    .println("\n\t[!] El producto ya existe en la factura [!]\n");
+		    Utilidades
+			    .imprimirLinea("\n\t[!] El producto ya existe en la factura [!]\n");
 		    prod_selec = -1;
 		}
 	    }
@@ -411,14 +413,15 @@ public class Main {
 	} while ((prod_selec < 0) || (prod_selec > maximo));
 
 	ges_ventas.facturar(prod_selec);
-	System.out.println("\n\t[*] Producto agregado [*]\n");
+	Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
 
     }
 
     private static void listarProductos(GestorVentas ges_ventas) {
-	System.out.println("\n\n\t=========[LISTADO DE PRODUCTOS]=========\n");
-	System.out.print("\t --------------------------------------\n");
-	System.out.print("\t|  # | Cod.  | Nombre         | PRECIO |\n");
+	Utilidades
+		.imprimirLinea("\n\n\t=========[LISTADO DE PRODUCTOS]=========\n");
+	Utilidades.imprimir("\t --------------------------------------\n");
+	Utilidades.imprimir("\t|  # | Cod.  | Nombre         | PRECIO |\n");
 
 	for (int i = 0; i < ges_ventas.totalProductos(); i++) {
 
@@ -428,6 +431,6 @@ public class Main {
 		    ges_ventas.consultar_nombre(i),
 		    ges_ventas.consultar_precio(i));
 	}
-	System.out.print("\t --------------------------------------\n\n");
+	Utilidades.imprimir("\t --------------------------------------\n\n");
     }
 }
