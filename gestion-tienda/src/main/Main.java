@@ -1,6 +1,6 @@
 /**
  * Clase Main
- * 	
+ *      
  * Version 1.0
  * 
  * Realizado por Sergio Fernandez y Jose Alberto Granados 
@@ -20,12 +20,6 @@ import java.util.Scanner;
 
 import utilidades.Utilidades;
 
-/**
- * @author Sergio Fernandez y Alberto Granados
- * 
- * @version 1.0
- * 
- */
 public class Main {
 
     // private static Utilidades inOut = new Utilidades();
@@ -62,7 +56,7 @@ public class Main {
 		}
 
 		/**
-		 * Bucle para mostrar el menÃº principal y dentro de Ã©l, los
+		 * Bucle para mostrar el menú principal y dentro de él, los
 		 * sub-menus
 		 */
 		while ((valido)) {
@@ -105,7 +99,7 @@ public class Main {
 
 			break;
 
-		    case 3: // Cambiar contraseÃ±a
+		    case 3: // Cambiar contraseña
 			cambioPass(ges_empleado);
 			break;
 
@@ -290,7 +284,7 @@ public class Main {
 	do {
 	    Utilidades
 		    .imprimirLinea("\n\n\t\t=========[HACER PEDIDO]=========\n");
-	    Utilidades.imprimirLinea("1.1 Agregar pedido");
+	    Utilidades.imprimirLinea("1.1 Agregar al pedido");
 	    Utilidades.imprimirLinea("1.2 Visualizar precio total");
 	    Utilidades.imprimirLinea("1.3 Imprimir factura");
 	    Utilidades.imprimirLinea("1.4 Terminar pedido");
@@ -317,7 +311,7 @@ public class Main {
 	    Utilidades.imprimirLinea("2. Modificar precio");
 	    Utilidades.imprimirLinea("3. Modificar codigo");
 
-	    opcion = Utilidades.leerInt("  Elija una opciÃ³n [1-3]: ");
+	    opcion = Utilidades.leerInt("  Elija una opción [1-3]: ");
 
 	    if (opcion < 1 || opcion > 3) {
 		Utilidades
