@@ -1,13 +1,5 @@
 package gestionEmpleados;
 
-/**
- * 
- */
-
-/**
- * @author v4lm0nt
- * 
- */
 public class Empleado {
 
     private int cod_acceso;
