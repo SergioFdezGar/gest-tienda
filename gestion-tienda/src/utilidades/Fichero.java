@@ -54,8 +54,9 @@ public class Fichero {
     public void crearArchivo(File fich, String modo)
 	    throws FileNotFoundException {
 	// En el caso de que el fichero exista, lo eliminamos
-	if (fich.exists())
+	if (fich.exists()) {
 	    fich.delete();
+	}
 	// Creamos el fichero
 	fichero = fich;
 	canal_IO = new RandomAccessFile(fichero, modo);

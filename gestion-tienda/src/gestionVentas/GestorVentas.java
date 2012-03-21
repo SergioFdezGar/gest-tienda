@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GestorVentas {
 
-    private ArrayList<Producto> list_productos;
+    private ArrayList<Producto> list_productos = new ArrayList<Producto>();
     private ArrayList<Producto> factura = new ArrayList<Producto>();
     private ProductoDao produ_dao;
 
@@ -15,6 +15,7 @@ public class GestorVentas {
     }
 
     public void recuperar() throws IOException {
+	list_productos = null;
 	list_productos = produ_dao.recuperar();
     }
 
