@@ -1,8 +1,8 @@
 package gestionEmpleados;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import utilidades.Fichero;
 
 public class EmpleadoDao {
@@ -10,7 +10,7 @@ public class EmpleadoDao {
     private String path = null;
     private Fichero fichero = null;
 
-    public EmpleadoDao(String fich) throws FileNotFoundException {
+    public EmpleadoDao(String fich) throws IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
     }

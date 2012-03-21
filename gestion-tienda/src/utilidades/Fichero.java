@@ -34,11 +34,11 @@ public class Fichero {
 	canal_IO = null;
     }
 
-    public Fichero(File file, String modo) throws FileNotFoundException {
+    public Fichero(File file, String modo) throws IOException {
 	abrirArchivo(file, modo);
     }
 
-    public Fichero(String file, String modo) throws FileNotFoundException {
+    public Fichero(String file, String modo) throws IOException {
 	// Por defecto se abre como sólo lectura;
 	abrirArchivo(file, modo);
     }
@@ -49,12 +49,12 @@ public class Fichero {
      * 
      * @param fich
      *            Variable de tipo File
-     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public void crearArchivo(File fich, String modo)
-	    throws FileNotFoundException {
+    public void crearArchivo(File fich, String modo) throws IOException {
 	// En el caso de que el fichero exista, lo eliminamos
 	if (fich.exists()) {
+	    canal_IO.close();
 	    fich.delete();
 	}
 	// Creamos el fichero
@@ -69,15 +69,13 @@ public class Fichero {
      * @param s
      *            String con el nombre del fichero de texto o con la ruta y
      *            nombre del fichero.
-     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public void crearArchivo(String s, String modo)
-	    throws FileNotFoundException {
+    public void crearArchivo(String s, String modo) throws IOException {
 	crearArchivo(new File(s), modo);
     }
 
-    public void abrirArchivo(File fich, String modo)
-	    throws FileNotFoundException {
+    public void abrirArchivo(File fich, String modo) throws IOException {
 	// En el caso de que el fichero no exista, lo creamos
 	if (!fich.exists()) {
 	    crearArchivo(fich, modo); // El fichero queda enlazado en
@@ -88,8 +86,7 @@ public class Fichero {
 	canal_IO = new RandomAccessFile(fichero, modo);
     }
 
-    public void abrirArchivo(String s, String modo)
-	    throws FileNotFoundException {
+    public void abrirArchivo(String s, String modo) throws IOException {
 	abrirArchivo(new File(s), modo);
     }
 

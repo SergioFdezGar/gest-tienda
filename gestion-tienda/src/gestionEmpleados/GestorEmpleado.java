@@ -1,21 +1,20 @@
 package gestionEmpleados;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class GestorEmpleado {
 
-    private ArrayList<Empleado> list_empleados;
+    private ArrayList<Empleado> list_empleados = new ArrayList<Empleado>();
     private EmpleadoDao emp_dao;
     private int emp_activo = -1;
 
-    public GestorEmpleado(String fich) throws FileNotFoundException {
+    public GestorEmpleado(String fich) throws IOException {
 	emp_dao = new EmpleadoDao(fich);
     }
 
     public void recuperar() throws IOException {
-	list_empleados = null;
+	list_empleados = new ArrayList<Empleado>();
 	list_empleados = emp_dao.recuperar();
     }
 
