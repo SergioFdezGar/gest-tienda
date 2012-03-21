@@ -1,6 +1,5 @@
 package gestionVentas;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,12 +9,12 @@ public class GestorVentas {
     private ArrayList<Producto> factura = new ArrayList<Producto>();
     private ProductoDao produ_dao;
 
-    public GestorVentas(String fich) throws FileNotFoundException {
+    public GestorVentas(String fich) throws IOException {
 	produ_dao = new ProductoDao(fich);
     }
 
     public void recuperar() throws IOException {
-	list_productos = null;
+	list_productos = new ArrayList<Producto>();
 	list_productos = produ_dao.recuperar();
     }
 

@@ -1,17 +1,16 @@
 package gestionVentas;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import utilidades.Fichero;
-import gestionVentas.Producto;
 
 public class ProductoDao {
 
     private String path = null;
     private Fichero fichero = null;
 
-    public ProductoDao(String fich) throws FileNotFoundException {
+    public ProductoDao(String fich) throws IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
     }
