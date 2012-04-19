@@ -1,20 +1,25 @@
 package gestionEmpleados;
 
-public class Empleado {
+abstract class Empleado {
 
-    private int cod_acceso;
-    private String nombre;
-    private String password;
+    protected int cod_acceso;
+    protected String nombre;
+    protected String password;
+    protected int nivel;
 
-    public Empleado(int id, String nom, String pass) {
+    public Empleado(int id, String nom, String pass, int lvl) {
 	cod_acceso = id;
 	nombre = nom;
 	password = pass;
+	nivel = lvl;
+
     }
 
     public Empleado() {
 	// TODO Auto-generated constructor stub
     }
+
+    abstract double calcProductividad();
 
     /**
      * @return the cod_acceso
@@ -60,4 +65,20 @@ public class Empleado {
     public void setPassword(String password) {
 	this.password = password;
     }
+
+    /**
+     * @return the nivel
+     */
+    public int getNivel() {
+	return nivel;
+    }
+
+    /**
+     * @param nivel
+     *            the nivel to set
+     */
+    public void setNivel(int nivel) {
+	this.nivel = nivel;
+    }
+
 }
