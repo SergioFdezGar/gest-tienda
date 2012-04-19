@@ -10,39 +10,15 @@ public class EmpleadoDao {
     private String path = null;
     private Fichero fichero = null;
 
+    // Atributos princiales de los empleados
+    private String nombre;
+    private int cod;
+    private String password;
+    private int nivel;
+
     public EmpleadoDao(String fich) throws IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
-    }
-
-    public ArrayList<Empleado> recuperar() throws IOException {
-
-	int total_emp = 0;
-	ArrayList<Empleado> list_empleados = new ArrayList<Empleado>();
-
-	// Primero, vemos el numero de empleados que hay.
-	fichero.leerLinea();
-	total_emp = Integer.parseInt(fichero.leerLinea());
-
-	// Recuperamos los empleados uno a uno
-	for (int i = 0; i < total_emp; i++) {
-
-	    Empleado empleado = new Empleado();
-
-	    fichero.leerLinea();
-	    empleado.setNombre(fichero.leerLinea());
-
-	    fichero.leerLinea();
-	    empleado.setCod_acceso(Integer.parseInt(fichero.leerLinea()));
-
-	    fichero.leerLinea();
-	    empleado.setPassword(fichero.leerLinea());
-
-	    list_empleados.add(i, empleado);
-
-	}
-
-	return list_empleados;
     }
 
     public void guardar(ArrayList<Empleado> list_empleados) throws IOException {
@@ -60,6 +36,48 @@ public class EmpleadoDao {
 
 	fichero.cerrar(path);
 
+    }
+
+    public ArrayList<Empleado> recuperar() throws IOException {
+
+	int total_emp = 0;
+	ArrayList<Empleado> list_empleados = new ArrayList<Empleado>();
+
+	// Primero, vemos el numero de empleados que hay.
+	fichero.leerLinea();
+	total_emp = Integer.parseInt(fichero.leerLinea());
+
+	// Recuperamos los empleados uno a uno
+	for (int i = 0; i < total_emp; i++) {
+
+	    fichero.leerLinea();
+	    this.nombre = fichero.leerLinea();
+
+	    fichero.leerLinea();
+	    this.cod = Integer.parseInt(fichero.leerLinea());
+
+	    fichero.leerLinea();
+	    this.password = fichero.leerLinea();
+
+	    // Comprobamos que tipo de empleado es
+	    fichero.leerLinea();
+
+	    if ("nocturno".equals(fichero.leerLinea())) {
+		fichero.leerLinea();
+		int plus = Integer.parseInt(fichero.leerLinea());
+		EmpNocturno empleado = new EmpNocturno(cod, nombre, password,
+			nivel, plus);
+		list_empleados.add(i, empleado);
+	    } else {
+		fichero.leerLinea();
+		double retencion = Integer.parseInt(fichero.leerLinea());
+		EmpDiurno empleado = new EmpDiurno(cod, nombre, password,
+			nivel, retencion);
+		list_empleados.add(i, empleado);
+	    }
+	}
+
+	return list_empleados;
     }
 
 }
