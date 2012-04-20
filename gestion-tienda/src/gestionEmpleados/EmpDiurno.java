@@ -25,9 +25,36 @@ public class EmpDiurno extends Empleado {
     }
 
     @Override
-    double calcProductividad(double venta) {
-	// TODO Auto-generated method stub
-	return 0;
-    }
+    void calcProductividad(double venta) {
 
+	switch (super.getNivel()) {
+	case 1:
+	    // Retencion 0
+	    setProductividad(getProductividad() + GR_NIVEL_1 + venta);
+
+	    break;
+
+	case 2:
+	    if (venta >= MAX3) {
+		setProductividad(getProductividad() + GR_NIVEL_2 + venta);
+	    } else {
+		setProductividad(getProductividad() + GR_NIVEL_2 + venta
+			- retencion);
+	    }
+	    break;
+
+	case 3:
+	    if (venta >= MAX1) {
+		setProductividad(getProductividad() + GR_NIVEL_3 + venta);
+		setProductividad(getProductividad()
+			+ (GR_NIVEL_3 - (GR_NIVEL_3 * 0.04)));
+	    } else {
+		setProductividad(getProductividad() + GR_NIVEL_3 + venta);
+	    }
+	    break;
+
+	default:
+	    setProductividad(0);
+	}
+    }
 }

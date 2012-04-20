@@ -100,7 +100,7 @@ public class Main {
 
 			break;
 
-		    case 3: // Cambiar contrase�a
+		    case 3: // Cambiar contrasenia
 			cambioPass(ges_empleado);
 			break;
 

@@ -1,5 +1,6 @@
 package gestionEmpleados;
 
+@SuppressWarnings("serial")
 public class NoAccessException extends Exception {
 
     private int codigo;
@@ -18,7 +19,7 @@ public class NoAccessException extends Exception {
 	String msg = null;
 	switch (codigo) {
 	case 1111:
-	    msg = "Error. Password incorrecto.";
+	    msg = "Error. Login incorrecto.";
 	    break;
 	case 2222:
 	    msg = "Error. Password incorrecto.";
