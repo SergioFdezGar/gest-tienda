@@ -10,6 +10,7 @@
 package main;
 
 import gestionEmpleados.GestorEmpleado;
+import gestionEmpleados.NoAccessException;
 import gestionVentas.GestorVentas;
 import gestionVentas.Producto;
 
@@ -50,13 +51,13 @@ public class Main {
 
 		valido = autenticacion(ges_empleado);
 
-		if (!valido) {
-		    Utilidades
-			    .imprimirLinea("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
-		}
+		// if (!valido) {
+		// Utilidades
+		// .imprimirLinea("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
+		// }
 
 		/**
-		 * Bucle para mostrar el menú principal y dentro de él, los
+		 * Bucle para mostrar el menu principal y dentro de el, los
 		 * sub-menus
 		 */
 		while ((valido)) {
@@ -99,7 +100,7 @@ public class Main {
 
 			break;
 
-		    case 3: // Cambiar contraseña
+		    case 3: // Cambiar contraseï¿½a
 			cambioPass(ges_empleado);
 			break;
 
@@ -245,13 +246,17 @@ public class Main {
 	boolean b = false;
 
 	cod = Utilidades.leerInt("  -> Codigo de acceso: ");
+
 	Utilidades.imprimir("  -> Password: ");
 	pass = Utilidades.lectura();
+	try {
+	    if (gest_emp.logIn(cod, pass) >= 0) {
+		b = true;
+	    }
 
-	if (gest_emp.logIn(cod, pass) >= 0) {
-	    b = true;
+	} catch (NoAccessException e) {
+	    Utilidades.imprimirLinea("\n  [!] " + e.getMessage() + " [!]\n\n");
 	}
-
 	return b;
     }
 
@@ -311,7 +316,7 @@ public class Main {
 	    Utilidades.imprimirLinea("2. Modificar precio");
 	    Utilidades.imprimirLinea("3. Modificar codigo");
 
-	    opcion = Utilidades.leerInt("  Elija una opción [1-3]: ");
+	    opcion = Utilidades.leerInt("  Elija una opciï¿½n [1-3]: ");
 
 	    if (opcion < 1 || opcion > 3) {
 		Utilidades

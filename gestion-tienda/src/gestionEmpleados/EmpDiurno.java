@@ -4,23 +4,9 @@ public class EmpDiurno extends Empleado {
 
     private double retencion;
 
-    /**
-     * 
-     */
     public EmpDiurno(int id, String nom, String pass, int lvl, double reten) {
 	super(id, nom, pass, lvl);
 	this.retencion = reten;
-    }
-
-    /**
-     * @param id
-     * @param nom
-     * @param pass
-     * @param lvl
-     */
-    public EmpDiurno(int id, String nom, String pass, int lvl) {
-	super(id, nom, pass, lvl);
-	// TODO Auto-generated constructor stub
     }
 
     /**
@@ -39,7 +25,7 @@ public class EmpDiurno extends Empleado {
     }
 
     @Override
-    double calcProductividad() {
+    double calcProductividad(double venta) {
 	// TODO Auto-generated method stub
 	return 0;
     }

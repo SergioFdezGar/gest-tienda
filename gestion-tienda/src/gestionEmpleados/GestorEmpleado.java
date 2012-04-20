@@ -18,14 +18,19 @@ public class GestorEmpleado {
 	list_empleados = emp_dao.recuperar();
     }
 
-    public int logIn(int cod, String pass) {
+    public int logIn(int cod, String pass) throws NoAccessException {
 
 	// Buscamos en la lista si coincide con algun empleado.
 	for (int i = 0; i < list_empleados.size(); i++) {
-	    if ((cod == list_empleados.get(i).getCod_acceso())
-		    && (pass.equals(list_empleados.get(i).getPassword()))) {
-		emp_activo = i;
-		break;
+	    if (cod == list_empleados.get(i).getCod_acceso()) {
+		if (pass.equals(list_empleados.get(i).getPassword())) {
+		    emp_activo = i;
+		    break;
+		} else {
+		    throw new NoAccessException(2222);
+		}
+	    } else if (i == list_empleados.size() - 1) {
+		throw new NoAccessException(1111);
 	    }
 	}
 	return emp_activo;
