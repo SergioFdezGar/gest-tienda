@@ -1,22 +1,19 @@
 package gestionVentas;
 
+//clase abstracta
 public class Producto {
 
-    private int codigo;
-    private String nombre;
-    private double precio;
+    protected int codigo;
+    protected String nombre;
+    protected double precio;
+    protected int unidades;
 
-    // Constructor
-
-    public Producto() {
-
-    }
-
-    public Producto(int codigo, String nombre, double precio) {
+    public Producto(int codigo, String nombre, double precio, int unidades) {
 
 	this.codigo = codigo;
 	this.nombre = nombre;
 	this.precio = precio;
+	this.unidades = unidades;
     }// Fin constructor
 
     // Metodos de consulta y modificacion del codigo
@@ -54,4 +51,11 @@ public class Producto {
 	precio = prec;
     }
 
+    public int get_unidades() {
+	return unidades;
+    }
+
+    public void set_unidades(int uni) {
+	unidades = uni;
+    }
 }// Fin Class Producto
