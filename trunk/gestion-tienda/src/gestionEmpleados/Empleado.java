@@ -6,20 +6,19 @@ abstract class Empleado {
     protected String nombre;
     protected String password;
     protected int nivel;
+    protected double productividad;
 
     public Empleado(int id, String nom, String pass, int lvl) {
-	cod_acceso = id;
-	nombre = nom;
-	password = pass;
-	nivel = lvl;
-
+	this.cod_acceso = id;
+	this.nombre = nom;
+	this.password = pass;
+	this.nivel = lvl;
+	this.productividad = 0;
     }
 
     public Empleado() {
 	// TODO Auto-generated constructor stub
     }
-
-    abstract double calcProductividad();
 
     /**
      * @return the cod_acceso
@@ -81,4 +80,20 @@ abstract class Empleado {
 	this.nivel = nivel;
     }
 
+    /**
+     * @return the productividad
+     */
+    public double getProductividad() {
+	return productividad;
+    }
+
+    /**
+     * @param productividad
+     *            the productividad to set
+     */
+    public void setProductividad(double productividad) {
+	this.productividad = productividad;
+    }
+
+    abstract double calcProductividad(double venta);
 }

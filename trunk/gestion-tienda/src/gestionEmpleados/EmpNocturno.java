@@ -17,7 +17,7 @@ public class EmpNocturno extends Empleado {
     }
 
     @Override
-    double calcProductividad() {
+    double calcProductividad(double venta) {
 	// TODO Auto-generated method stub
 	return 0;
     }
