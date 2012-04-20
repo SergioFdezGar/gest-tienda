@@ -9,6 +9,13 @@ public class ProductoDao {
 
     private String path = null;
     private Fichero fichero = null;
+    private int codigo;
+    private String nombre;
+    private double precio;
+    private int unidades;
+    private String perecedero;
+    private int dias;
+    private int oferta;
 
     public ProductoDao(String fich) throws IOException {
 	path = fich;
@@ -27,18 +34,41 @@ public class ProductoDao {
 	// Recuperamos los productos uno a uno
 	for (int i = 0; i < total_prod; i++) {
 
-	    Producto producto = new Producto();
+	    Producto producto;
 
 	    fichero.leerLinea();
-	    producto.set_codigo(Integer.parseInt(fichero.leerLinea()));
+	    codigo = Integer.parseInt(fichero.leerLinea());
 
 	    fichero.leerLinea();
-	    producto.set_nombre(fichero.leerLinea());
+	    nombre = fichero.leerLinea();
 
 	    fichero.leerLinea();
-	    producto.set_precio(Double.parseDouble(fichero.leerLinea()));
+	    precio = Double.parseDouble(fichero.leerLinea());
 
-	    list_productos.add(i, producto);
+	    fichero.leerLinea();
+	    unidades = Integer.parseInt(fichero.leerLinea());
+
+	    fichero.leerLinea();
+	    perecedero = fichero.leerLinea();
+
+	    if (perecedero.equals("si")) {
+
+		fichero.leerLinea();
+		dias = Integer.parseInt(fichero.leerLinea());
+
+		producto = new Pro_Perecedero(codigo, nombre, precio, unidades,
+			dias);
+		list_productos.add(i, producto);
+
+	    } else {
+
+		fichero.leerLinea();
+		oferta = Integer.parseInt(fichero.leerLinea());
+
+		producto = new Pro_No_Perecedero(codigo, nombre, precio,
+			unidades, oferta);
+		list_productos.add(i, producto);
+	    }
 
 	}
 

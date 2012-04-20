@@ -34,6 +34,10 @@ public class GestorVentas {
 	list_productos.get(i).set_precio(prec);
     }
 
+    public void modificar_unidades(int i, int unidades) {
+	list_productos.get(i).set_unidades(consultar_unidades(i) + unidades);
+    }
+
     public int consultar_codigo(int i) {
 	return list_productos.get(i).get_codigo();
     }
@@ -44,6 +48,10 @@ public class GestorVentas {
 
     public double consultar_precio(int i) {
 	return list_productos.get(i).get_precio();
+    }
+
+    public int consultar_unidades(int i) {
+	return list_productos.get(i).get_unidades();
     }
 
     public void facturar(int i) {
@@ -77,7 +85,8 @@ public class GestorVentas {
 	return posicion;
     }
 
-    // Parte que se encarga de decirnos si existe un producto según su categoria
+    // Parte que se encarga de decirnos si existe un producto según su
+    // categoria
     public int posCodigo(int cod) {
 
 	int posicion = -1;
