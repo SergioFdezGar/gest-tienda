@@ -1,12 +1,12 @@
 package gestionEmpleados;
 
-abstract class Empleado {
+abstract class Empleado implements Compras {
 
-    protected int cod_acceso;
-    protected String nombre;
-    protected String password;
-    protected int nivel;
-    protected double productividad;
+    private int cod_acceso;
+    private String nombre;
+    private String password;
+    private int nivel;
+    private double productividad;
 
     public Empleado(int id, String nom, String pass, int lvl) {
 	this.cod_acceso = id;
@@ -95,5 +95,5 @@ abstract class Empleado {
 	this.productividad = productividad;
     }
 
-    abstract double calcProductividad(double venta);
+    abstract void calcProductividad(double venta);
 }

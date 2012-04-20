@@ -17,9 +17,28 @@ public class EmpNocturno extends Empleado {
     }
 
     @Override
-    double calcProductividad(double venta) {
-	// TODO Auto-generated method stub
-	return 0;
-    }
+    void calcProductividad(double venta) {
 
+	switch (getNivel()) {
+	case 1:
+	    if (venta >= MAX2) {
+		setProductividad(getProductividad()
+			+ (2 * GR_NIVEL_1 + venta * plus));
+	    } else {
+		setProductividad(getProductividad()
+			+ (GR_NIVEL_1 + venta * plus));
+	    }
+	    break;
+	case 2:
+	    setProductividad(getProductividad() + (GR_NIVEL_2 + venta * plus));
+	    break;
+
+	case 3:
+	    setProductividad(getProductividad() + (GR_NIVEL_3 + venta * plus));
+	    break;
+
+	default:
+	    setProductividad(0);
+	}
+    }
 }
