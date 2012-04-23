@@ -1,6 +1,6 @@
 package gestionVentas;
 
-public interface Calc_pere {
+public interface Calculo {
     int dia1 = 1 / 4;
     int dia2 = 1 / 3;
     int dia3 = 1 / 2;

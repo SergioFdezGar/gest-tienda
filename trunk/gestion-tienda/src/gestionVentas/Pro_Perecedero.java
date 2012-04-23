@@ -1,6 +1,6 @@
 package gestionVentas;
 
-public class Pro_Perecedero extends Producto implements Calc_pere {
+public class Pro_Perecedero extends Producto implements Calculo {
 
     private int dias;
 

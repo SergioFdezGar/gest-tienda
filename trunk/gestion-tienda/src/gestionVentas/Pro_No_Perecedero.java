@@ -1,6 +1,6 @@
 package gestionVentas;
 
-public class Pro_No_Perecedero extends Producto {
+public class Pro_No_Perecedero extends Producto implements Calculo {
 
     private String tip_oferta;
 
@@ -10,22 +10,13 @@ public class Pro_No_Perecedero extends Producto {
 
     private double t_p;
 
+    private int cantidad;
+
     public Pro_No_Perecedero(int codigo, String nombre, double precio,
 	    int unidades, int idOferta) {
 
 	super(codigo, nombre, precio, unidades);
 	this.idOferta = idOferta;
-    }
-
-    public Pro_No_Perecedero(int codigo, String nombre, double precio,
-	    int unidades, int idOferta, String tip_oferta, int max, double t_p) {
-
-	super(codigo, nombre, precio, unidades);
-
-	this.tip_oferta = tip_oferta;
-	this.idOferta = idOferta;
-	this.max = max;
-	this.t_p = t_p;
     }
 
     public String get_tip_oferta() {
@@ -44,9 +35,25 @@ public class Pro_No_Perecedero extends Producto {
 	idOferta = idOfer;
     }
 
+    public int get_maximo() {
+	return max;
+    }
+
+    public void set_maximo(int maximo) {
+	this.max = maximo;
+    }
+
+    public int get_cantidad() {
+	return cantidad;
+    }
+
+    public void set_cantidad(int cantidad) {
+	this.cantidad = cantidad;
+    }
+
     // Posible metodo de interface
 
-    public double precio_no_pere(int cantidad) {
+    public double precio_total() {
 
 	int gratis;
 
