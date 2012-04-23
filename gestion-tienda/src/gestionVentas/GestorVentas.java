@@ -8,6 +8,7 @@ public class GestorVentas {
     private ArrayList<Producto> list_productos = new ArrayList<Producto>();
     private ArrayList<Producto> factura = new ArrayList<Producto>();
     private ProductoDao produ_dao;
+    private ArrayList<Integer> unidades = new ArrayList<Integer>();
 
     public GestorVentas(String fich) throws IOException {
 	produ_dao = new ProductoDao(fich);
@@ -35,7 +36,7 @@ public class GestorVentas {
     }
 
     public void modificar_unidades(int i, int unidades) {
-	list_productos.get(i).set_unidades(consultar_unidades(i) + unidades);
+	list_productos.get(i).set_unidades(unidades);
     }
 
     public int consultar_codigo(int i) {
@@ -126,4 +127,11 @@ public class GestorVentas {
 	this.factura = new ArrayList<Producto>();
     }
 
+    public void unidades_pro(int unidades) {
+	this.unidades.add(unidades);
+    }
+
+    public ArrayList<Integer> get_unidades() {
+	return unidades;
+    }
 }

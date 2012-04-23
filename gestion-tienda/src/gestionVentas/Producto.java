@@ -1,7 +1,7 @@
 package gestionVentas;
 
 //clase abstracta
-public class Producto {
+public abstract class Producto {
 
     protected int codigo;
     protected String nombre;
@@ -51,6 +51,8 @@ public class Producto {
 	precio = prec;
     }
 
+    // Metodos de consulta y modificacion de las unidades
+
     public int get_unidades() {
 	return unidades;
     }
@@ -58,4 +60,5 @@ public class Producto {
     public void set_unidades(int uni) {
 	unidades = uni;
     }
+
 }// Fin Class Producto
