@@ -39,9 +39,10 @@ public class Main {
 	    ges_empleado.recuperar();
 
 	    /* Arranque del sub-sistema de GestorVentas */
-	    GestorVentas ges_ventas = new GestorVentas("productos.txt");
+	    GestorVentas ges_ventas = new GestorVentas("productos.txt",
+		    "ofertas.txt");
 	    ges_ventas.recuperar();
-
+	    ges_ventas.Asociar();
 	    /* Parte en la que se solicita el password */
 	    do {
 		// Bucle para solicitud de los datos.
@@ -79,11 +80,10 @@ public class Main {
 			// Solicitar cual es el producto a modificar
 
 			do {
-			    Utilidades
-				    .imprimirLinea("\n  # del producto a modificar? [0-"
+			    producto = Utilidades
+				    .leerInt("\n Numero (#) del producto a modificar? [0-"
 					    + (ges_ventas.totalProductos() - 1)
 					    + "]: ");
-			    producto = Utilidades.leerInt(null);
 
 			    if (producto < 0
 				    || producto > (ges_ventas.totalProductos() - 1)) {
@@ -163,15 +163,18 @@ public class Main {
 
 	    case 3:
 		Utilidades
-			.imprimirLinea("\n\n\t\t=========[FACTURA]=========\n");
+			.imprimirLinea("\n\n\t\t============[FACTURA]============\n");
 		ArrayList<Producto> fact = ges_ventas.get_factura();
+		ArrayList<Integer> uni = ges_ventas.get_unidades();
+
 		for (int i = 0; i < fact.size(); i++) {
 		    Utilidades.imprimirLinea("\t\t" + fact.get(i).get_codigo()
-			    + "\t" + fact.get(i).get_nombre() + "\t\t"
-			    + fact.get(i).get_precio() + " Euros");
+			    + "\t" + fact.get(i).get_nombre() + "\t"
+			    + uni.get(i) + "\t" + fact.get(i).get_precio()
+			    + " Euros");
 		}
 		Utilidades
-			.imprimirLinea("\t\t-----------------------------------");
+			.imprimirLinea("\t\t----------------------------------");
 		Utilidades.imprimirLinea("\t\tTotal Precio:\t\t"
 			+ ges_ventas.calculo_factura() + " Euros" + "\n");
 
@@ -194,6 +197,7 @@ public class Main {
 	    GestorVentas ges_ventas) {
 
 	boolean cambio = false;
+	int unidades;
 
 	do {
 
@@ -224,6 +228,17 @@ public class Main {
 		    ges_ventas.modificar_codigo(producto, codigo);
 		    cambio = true;
 		}
+		break;
+	    case 4: // Unidades
+		do {
+		    unidades = Utilidades.leerInt(" unidades: ");
+		    if (unidades <= 0)
+			Utilidades
+				.imprimirLinea("\n\t[!] Error al introducir las unidades, intentelo de nuevo [!]\n");
+		} while (unidades <= 0);
+		ges_ventas.modificar_unidades(producto,
+			(unidades + ges_ventas.consultar_unidades(producto)));
+		cambio = true;
 		break;
 
 	    }
@@ -316,7 +331,7 @@ public class Main {
 	    Utilidades.imprimirLinea("2. Modificar precio");
 	    Utilidades.imprimirLinea("3. Modificar codigo");
 
-	    opcion = Utilidades.leerInt("  Elija una opci�n [1-3]: ");
+	    opcion = Utilidades.leerInt("  Elija una opcion [1-3]: ");
 
 	    if (opcion < 1 || opcion > 3) {
 		Utilidades
@@ -382,6 +397,8 @@ public class Main {
 
     private static void agregarProducto(GestorVentas ges_ventas, int cantidad) {
 	int prod_selec;
+	int unidades;
+	int maximo_unidades;
 	int maximo = ges_ventas.totalProductos() - 1;
 
 	/* Verificamos que se pueden meter mas productos en la factura */
@@ -407,7 +424,29 @@ public class Main {
 			    .imprimirLinea("\n\t[!] El producto ya existe en la factura [!]\n");
 		    prod_selec = -1;
 		}
+
 	    }
+	    /* Cuantas unidades desea a�adir del producto */
+	    do {
+		unidades = Utilidades
+			.leerInt("\nCuantas unidades del producto desea? [1-"
+				+ ges_ventas.consultar_unidades(prod_selec)
+				+ "] ");
+		maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
+
+		if (unidades <= 0 || unidades > maximo_unidades) {
+		    Utilidades
+			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
+		} else {
+		    // restar unidades a existencias
+		    Utilidades
+			    .imprimirLinea("\n\t[*] Unidades a�adidas satisfactoriamente [*]\n");
+		    ges_ventas.modificar_unidades(prod_selec,
+			    ges_ventas.consultar_unidades(prod_selec)
+				    - unidades);
+		    ges_ventas.unidades_pro(unidades);
+		}
+	    } while (unidades <= 0 || unidades > maximo_unidades);
 
 	} while ((prod_selec < 0) || (prod_selec > maximo));
 
@@ -419,17 +458,22 @@ public class Main {
     private static void listarProductos(GestorVentas ges_ventas) {
 	Utilidades
 		.imprimirLinea("\n\n\t=========[LISTADO DE PRODUCTOS]=========\n");
-	Utilidades.imprimir("\t --------------------------------------\n");
-	Utilidades.imprimir("\t|  # | Cod.  | Nombre         | PRECIO |\n");
+	Utilidades
+		.imprimir("\t -------------------------------------------------\n");
+	Utilidades
+		.imprimir("\t|  # | Cod.  | Nombre         | PRECIO | Unidades |\n");
 
 	for (int i = 0; i < ges_ventas.totalProductos(); i++) {
 
-	    System.out.print("\t|----|-------|----------------|--------|\n");
-	    System.out.printf("\t|%3d | %5d | %14s |  %3.2f |\n", i,
+	    System.out
+		    .print("\t|----|-------|----------------|--------|----------|\n");
+	    System.out.printf("\t|%3d | %5d | %14s |  %3.2f | %8d |\n", i,
 		    ges_ventas.consultar_codigo(i),
 		    ges_ventas.consultar_nombre(i),
-		    ges_ventas.consultar_precio(i));
+		    ges_ventas.consultar_precio(i),
+		    ges_ventas.consultar_unidades(i));
 	}
-	Utilidades.imprimir("\t --------------------------------------\n\n");
+	Utilidades
+		.imprimir("\t -------------------------------------------------\n\n");
     }
 }
