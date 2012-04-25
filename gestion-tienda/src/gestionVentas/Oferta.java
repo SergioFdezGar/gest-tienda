@@ -1,41 +1,30 @@
 package gestionVentas;
 
-public abstract class Oferta {
+public class Oferta {
 
     private int idOferta;
-    private int maximo;
+
     private String tip_oferta;
-    private int tantoporciento;
 
-    public String get_tip_oferta() {
-	return tip_oferta;
-    }
-
-    public void set_tip_oferta(String tip_ofer) {
-	tip_oferta = tip_ofer;
+    public Oferta(int idOferta, String tip_oferta) {
+	this.idOferta = idOferta;
+	this.tip_oferta = tip_oferta;
     }
 
     public int get_idOferta() {
 	return idOferta;
     }
 
-    public void set_idOferta(int idOfer) {
-	idOferta = idOfer;
+    public void set_idOferta(int idOf) {
+	idOferta = idOf;
     }
 
-    public int get_maximo() {
-	return maximo;
+    public String get_tip_oferta() {
+	return tip_oferta;
     }
 
-    public void set_maximo(int maximo) {
-	this.maximo = maximo;
+    public void set_tip_oferta(String tip_of) {
+	tip_oferta = tip_of;
     }
 
-    public int get_tantoporciento() {
-	return tantoporciento;
-    }
-
-    public void set_tantoporciento(int tantoporciento) {
-	this.tantoporciento = tantoporciento;
-    }
 }
