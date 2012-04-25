@@ -73,7 +73,7 @@ public class GestorVentas {
 	    factura.get(i).set_cantidad(unidades.get(i));
 	}
 	for (int i = 0; i < factura.size(); i++) {
-	    if (factura.get(i).getClass().getName() == "Pro_Perecedero") {
+	    if (factura.get(i) instanceof Pro_Perecedero) {
 		total_factura = total_factura
 			+ ((Pro_Perecedero) factura.get(i)).precio_total();
 	    } else {

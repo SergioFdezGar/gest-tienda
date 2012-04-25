@@ -33,32 +33,34 @@ public class Pro_No_Perecedero extends Producto {
 
 	int gratis;
 
+	double precio_parcial;
+
 	if (oferta.get_tip_oferta().equalsIgnoreCase("porcentaje"))
-	    set_precio(cantidad * get_precio()
+	    precio_parcial = cantidad * get_precio()
 		    * (100 - ((Ofer_Porcentaje) oferta).get_porcentaje()) / 100
 		    - (((Ofer_Porcentaje) oferta).get_maximo() - 3)
-		    * get_precio());
+		    * get_precio();
 	else {
 	    if (oferta.get_tip_oferta().equals("2x1")) {
 		if (cantidad % 2 != 0) {
 		    cantidad = cantidad / 2 + 1;
-		    set_precio(cantidad * get_precio());
+		    precio_parcial = cantidad * get_precio();
 		} else {
 		    cantidad = cantidad / 2;
-		    set_precio(cantidad * get_precio());
+		    precio_parcial = cantidad * get_precio();
 		}
 	    } else {
 		if (cantidad == 2)
-		    set_precio(cantidad * get_precio());
+		    precio_parcial = cantidad * get_precio();
 		else {
 		    gratis = cantidad / 3;
 		    cantidad = cantidad - gratis;
-		    set_precio(cantidad * get_precio());
+		    precio_parcial = cantidad * get_precio();
 		}
 	    }
 
 	}
-	return get_precio();
+	return precio_parcial;
     }
 
 }
