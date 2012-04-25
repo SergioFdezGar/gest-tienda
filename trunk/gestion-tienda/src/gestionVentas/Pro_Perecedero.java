@@ -26,17 +26,17 @@ public class Pro_Perecedero extends Producto {
     }
 
     public double precio_total() {
+	double precio_parcial;
 	if (dias == 1)
-	    set_precio(get_precio() / 4);
+	    precio_parcial = get_precio() / 4;
 	else {
 	    if (dias == 2)
-		set_precio(get_precio() / 3);
+		precio_parcial = get_precio() / 3;
 	    else {
-		set_precio(get_precio() / 2);
-		;
+		precio_parcial = get_precio() / 2;
 	    }
 	}
-	return get_precio() * cantidad;
+	return precio_parcial * cantidad;
     }
 
 }
