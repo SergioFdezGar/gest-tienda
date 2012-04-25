@@ -1,12 +1,12 @@
 package gestionVentas;
 
 //clase abstracta
-public abstract class Producto {
+public abstract class Producto implements Calculo {
 
-    protected int codigo;
-    protected String nombre;
-    protected double precio;
-    protected int unidades;
+    private int codigo;
+    private String nombre;
+    private double precio;
+    private int unidades;
 
     public Producto(int codigo, String nombre, double precio, int unidades) {
 

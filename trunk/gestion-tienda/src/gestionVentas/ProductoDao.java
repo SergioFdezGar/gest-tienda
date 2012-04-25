@@ -51,7 +51,7 @@ public class ProductoDao {
 	    fichero.leerLinea();
 	    perecedero = fichero.leerLinea();
 
-	    if (perecedero.equals("si")) {
+	    if (perecedero.equalsIgnoreCase("si")) {
 
 		fichero.leerLinea();
 		dias = Integer.parseInt(fichero.leerLinea());

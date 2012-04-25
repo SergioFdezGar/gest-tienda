@@ -1,6 +1,6 @@
 package gestionVentas;
 
-public class Pro_No_Perecedero extends Producto implements Calculo {
+public class Pro_No_Perecedero extends Producto {
 
     private String tip_oferta;
 
@@ -58,27 +58,28 @@ public class Pro_No_Perecedero extends Producto implements Calculo {
 	int gratis;
 
 	if (tip_oferta.equals("porcentaje"))
-	    precio = cantidad * precio * (100 - t_p) / 100 - (max - 3) * precio;
+	    set_precio(cantidad * get_precio() * (100 - t_p) / 100 - (max - 3)
+		    * get_precio());
 	else {
 	    if (tip_oferta.equals("2x1")) {
 		if (cantidad % 2 != 0) {
 		    cantidad = cantidad / 2 + 1;
-		    precio = cantidad * precio;
+		    set_precio(cantidad * get_precio());
 		} else {
 		    cantidad = cantidad / 2;
-		    precio = precio * cantidad;
+		    set_precio(cantidad * get_precio());
 		}
 	    } else {
 		if (cantidad == 2)
-		    precio = cantidad * precio;
+		    set_precio(cantidad * get_precio());
 		else {
 		    gratis = cantidad / 3;
 		    cantidad = cantidad - gratis;
-		    precio = precio * cantidad;
+		    set_precio(cantidad * get_precio());
 		}
 	    }
 
 	}
-	return precio;
+	return get_precio();
     }
 }
