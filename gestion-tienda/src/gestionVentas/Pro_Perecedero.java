@@ -1,8 +1,9 @@
 package gestionVentas;
 
-public class Pro_Perecedero extends Producto implements Calculo {
+public class Pro_Perecedero extends Producto {
 
     private int dias;
+    private int cantidad;
 
     public Pro_Perecedero(int codigo, String nombre, double precio,
 	    int unidades, int dias) {
@@ -20,17 +21,22 @@ public class Pro_Perecedero extends Producto implements Calculo {
 	this.dias = dias;
     }
 
+    public void set_cantidad(int cant) {
+	cantidad = cant;
+    }
+
     public double precio_total() {
 	if (dias == 1)
-	    precio = precio * dia1;
+	    set_precio(get_precio() / 4);
 	else {
 	    if (dias == 2)
-		precio = precio * dia2;
+		set_precio(get_precio() / 3);
 	    else {
-		precio = precio * dia3;
+		set_precio(get_precio() / 2);
+		;
 	    }
 	}
-	return precio;
+	return get_precio() * cantidad;
     }
 
 }

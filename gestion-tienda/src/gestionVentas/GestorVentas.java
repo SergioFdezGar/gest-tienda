@@ -62,7 +62,9 @@ public class GestorVentas {
     public double calculo_factura() {
 	double total_factura = 0;
 	for (int i = 0; i < factura.size(); i++) {
-	    total_factura = total_factura + factura.get(i).get_precio();
+	    factura.get(i).set_cantidad(unidades.get(i));
+	    total_factura = total_factura + factura.get(i).precio_total();
+
 	}
 	return total_factura;
     }
