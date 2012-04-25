@@ -5,18 +5,25 @@ import java.util.ArrayList;
 
 public class GestorVentas {
 
-    private ArrayList<Producto> list_productos = new ArrayList<Producto>();
+    private ArrayList<Producto> list_productos;
+    private ArrayList<Oferta> list_ofertas;
     private ArrayList<Producto> factura = new ArrayList<Producto>();
     private ProductoDao produ_dao;
+    private OfertasDao ofer_dao;
     private ArrayList<Integer> unidades = new ArrayList<Integer>();
 
-    public GestorVentas(String fich) throws IOException {
-	produ_dao = new ProductoDao(fich);
+    public GestorVentas(String fich_1, String fich_2) throws IOException {
+	produ_dao = new ProductoDao(fich_1);
+
+	ofer_dao = new OfertasDao(fich_2);
+
     }
 
     public void recuperar() throws IOException {
 	list_productos = new ArrayList<Producto>();
 	list_productos = produ_dao.recuperar();
+	list_ofertas = new ArrayList<Oferta>();
+	list_ofertas = ofer_dao.recuperar_ofertas();
     }
 
     public void guardar() throws IOException {
@@ -135,5 +142,30 @@ public class GestorVentas {
 
     public ArrayList<Integer> get_unidades() {
 	return unidades;
+    }
+
+    public void Asociar() {
+
+	for (int i = 0; i < list_productos.size(); i++) {
+
+	    if (list_productos.getClass().getName()
+		    .equalsIgnoreCase("Pro_No_Perecedero")) {
+		if (((Pro_No_Perecedero) list_productos.get(i)).get_idOferta() == list_ofertas
+			.get(i).get_idOferta()) {
+		    if (list_ofertas.get(i).get_idOferta() != 12) {
+			((Pro_No_Perecedero) list_productos.get(i))
+				.set_tip_oferta(list_ofertas.get(i)
+					.get_tip_oferta());
+		    } else {
+			((Pro_No_Perecedero) list_productos.get(i))
+				.set_tip_oferta(list_ofertas.get(i)
+					.get_tip_oferta());
+			((Pro_No_Perecedero) list_productos.get(i))
+				.set_maximo(list_ofertas.get(i).get_maximo());
+		    }
+		}
+	    }
+
+	}
     }
 }
