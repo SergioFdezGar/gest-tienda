@@ -1,7 +1,7 @@
 package gestionVentas;
 
 //clase abstracta
-public abstract class Producto implements Calculo {
+public abstract class Producto {
 
     private int codigo;
     private String nombre;
@@ -60,5 +60,7 @@ public abstract class Producto implements Calculo {
     public void set_unidades(int uni) {
 	unidades = uni;
     }
+
+    abstract void set_cantidad(int cantidad);
 
 }// Fin Class Producto
