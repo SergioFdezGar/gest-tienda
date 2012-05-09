@@ -329,15 +329,16 @@ public class Main {
 	    Utilidades.imprimirLinea("1. Modificar nombre");
 	    Utilidades.imprimirLinea("2. Modificar precio");
 	    Utilidades.imprimirLinea("3. Modificar codigo");
+	    Utilidades.imprimirLinea("4. Modificar unidades");
 
-	    opcion = Utilidades.leerInt("  Elija una opcion [1-3]: ");
+	    opcion = Utilidades.leerInt("  Elija una opcion [1-4]: ");
 
-	    if (opcion < 1 || opcion > 3) {
+	    if (opcion < 1 || opcion > 4) {
 		Utilidades
 			.imprimir("\n\t[!] VALOR INCORRECTO, respete el intervalo [!]\n");
 	    }
 
-	} while (opcion < 1 || opcion > 3);
+	} while (opcion < 1 || opcion > 4);
 
 	return opcion;
 
