@@ -50,11 +50,15 @@ public class Pro_No_Perecedero extends Producto {
 		    precio_parcial = cantidad * get_precio();
 		}
 	    } else {
-		if (cantidad == 2)
-		    precio_parcial = cantidad * get_precio();
-		else {
-		    gratis = cantidad / 3;
-		    cantidad = cantidad - gratis;
+		if (oferta.get_tip_oferta().equals("3x2")) {
+		    if (cantidad == 2)
+			precio_parcial = cantidad * get_precio();
+		    else {
+			gratis = cantidad / 3;
+			cantidad = cantidad - gratis;
+			precio_parcial = cantidad * get_precio();
+		    }
+		} else {
 		    precio_parcial = cantidad * get_precio();
 		}
 	    }
