@@ -156,8 +156,8 @@ public class Main {
 		break;
 
 	    case 2: /* Mostramos el total de la factura */
-		Utilidades.imprimirLinea("\nEl precio total es:"
-			+ ges_ventas.calculo_factura() + " Euros\n");
+		System.out.printf("\nEl precio total es: %.2f  Euros\n",
+			ges_ventas.calculo_factura());
 		break;
 
 	    case 3:
@@ -174,8 +174,8 @@ public class Main {
 		}
 		Utilidades
 			.imprimirLinea("\t\t----------------------------------");
-		Utilidades.imprimirLinea("\t\tTotal Precio:\t\t"
-			+ ges_ventas.calculo_factura() + " Euros" + "\n");
+		System.out.printf("\t\tTotal Precio:\t\t%.2f Euros\n",
+			ges_ventas.calculo_factura());
 
 		/* Agregamos el empleado que realiza el pedido */
 		Utilidades.imprimirLinea("\t\tAtendido por: "
@@ -425,32 +425,28 @@ public class Main {
 		}
 
 	    }
-	    /* Cuantas unidades desea a�adir del producto */
-	    do {
-		unidades = Utilidades
-			.leerInt("\nCuantas unidades del producto desea? [1-"
-				+ ges_ventas.consultar_unidades(prod_selec)
-				+ "] ");
-		maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
-
-		if (unidades <= 0 || unidades > maximo_unidades) {
-		    Utilidades
-			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
-		} else {
-		    // restar unidades a existencias
-		    Utilidades
-			    .imprimirLinea("\n\t[*] Unidades a�adidas satisfactoriamente [*]\n");
-		    ges_ventas.modificar_unidades(prod_selec,
-			    ges_ventas.consultar_unidades(prod_selec)
-				    - unidades);
-		    ges_ventas.unidades_pro(unidades);
-		}
-	    } while (unidades <= 0 || unidades > maximo_unidades);
-
 	} while ((prod_selec < 0) || (prod_selec > maximo));
+	/* Cuantas unidades desea agregar del producto */
+	do {
+	    unidades = Utilidades
+		    .leerInt("\nCuantas unidades del producto desea? [1-"
+			    + ges_ventas.consultar_unidades(prod_selec) + "] ");
+	    maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
+
+	    if (unidades <= 0 || unidades > maximo_unidades) {
+		Utilidades
+			.imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
+	    } else {
+		// restar unidades a existencias
+		ges_ventas.modificar_unidades(prod_selec,
+			ges_ventas.consultar_unidades(prod_selec) - unidades);
+		ges_ventas.unidades_pro(unidades);
+	    }
+	} while (unidades <= 0 || unidades > maximo_unidades);
 
 	ges_ventas.facturar(prod_selec);
-	Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
+	Utilidades
+		.imprimirLinea("\n\t[*] Producto y unidades agregados satisfactoriamente [*]\n");
 
     }
 
