@@ -13,6 +13,7 @@ import gestionEmpleados.GestorEmpleado;
 import gestionEmpleados.NoAccessException;
 import gestionVentas.GestorVentas;
 import gestionVentas.Producto;
+import gestionVentas.VentasException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -151,7 +152,12 @@ public class Main {
 	    switch (opcion) {
 
 	    case 1: /* Agregar producto a la factura */
-		agregarProducto(ges_ventas, cantidad);
+		try {
+		    agregarProducto(ges_ventas, cantidad);
+		} catch (VentasException e) {
+		    Utilidades.imprimir("\n" + e.getMessage());
+		    ges_ventas.PedirUnidades(prod_selec);
+		}
 
 		break;
 
@@ -303,7 +309,7 @@ public class Main {
 	do {
 	    Utilidades
 		    .imprimirLinea("\n\n\t\t=========[HACER PEDIDO]=========\n");
-	    Utilidades.imprimirLinea("1.1 Agregar al pedido");
+	    Utilidades.imprimirLinea("1.1 Agregar un tipo de producto");
 	    Utilidades.imprimirLinea("1.2 Visualizar precio total");
 	    Utilidades.imprimirLinea("1.3 Imprimir factura");
 	    Utilidades.imprimirLinea("1.4 Terminar pedido");
@@ -395,7 +401,8 @@ public class Main {
 
     }
 
-    private static void agregarProducto(GestorVentas ges_ventas, int cantidad) {
+    private static void agregarProducto(GestorVentas ges_ventas, int cantidad)
+	    throws VentasException {
 	int prod_selec;
 	int unidades;
 	int maximo_unidades;
@@ -428,22 +435,8 @@ public class Main {
 	    }
 	} while ((prod_selec < 0) || (prod_selec > maximo));
 	/* Cuantas unidades desea agregar del producto */
-	do {
-	    unidades = Utilidades
-		    .leerInt("\nCuantas unidades del producto desea? [1-"
-			    + ges_ventas.consultar_unidades(prod_selec) + "] ");
-	    maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
 
-	    if (unidades <= 0 || unidades > maximo_unidades) {
-		Utilidades
-			.imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
-	    } else {
-		// restar unidades a existencias
-		ges_ventas.modificar_unidades(prod_selec,
-			ges_ventas.consultar_unidades(prod_selec) - unidades);
-		ges_ventas.unidades_pro(unidades);
-	    }
-	} while (unidades <= 0 || unidades > maximo_unidades);
+	ges_ventas.PedirUnidades(prod_selec);
 
 	ges_ventas.facturar(prod_selec);
 	Utilidades

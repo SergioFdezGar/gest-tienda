@@ -3,6 +3,8 @@ package gestionVentas;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import utilidades.Utilidades;
+
 public class GestorVentas {
 
     private ArrayList<Producto> list_productos;
@@ -155,5 +157,29 @@ public class GestorVentas {
 
     public ArrayList<Integer> get_unidades() {
 	return unidades;
+    }
+
+    public void PedirUnidades(int prod_selec) throws VentasException {
+	int unidad;
+	int maximo_unidades;
+	do {
+	    unidad = Utilidades
+		    .leerInt("\nCuantas unidades del producto desea? [1-"
+			    + consultar_unidades(prod_selec) + "] ");
+	    maximo_unidades = consultar_unidades(prod_selec);
+
+	    if (unidad <= 0 || unidad > maximo_unidades) {
+		if (unidad <= 0)
+		    Utilidades
+			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
+		if (unidad > maximo_unidades)
+		    throw new VentasException(333);
+	    } else {
+		// restar unidades a existencias
+		modificar_unidades(prod_selec, consultar_unidades(prod_selec)
+			- unidad);
+		unidades_pro(unidad);
+	    }
+	} while (unidad <= 0 || unidad > maximo_unidades);
     }
 }
