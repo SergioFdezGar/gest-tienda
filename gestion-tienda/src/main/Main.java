@@ -42,7 +42,6 @@ public class Main {
 	    GestorVentas ges_ventas = new GestorVentas("productos.txt",
 		    "ofertas.txt");
 	    ges_ventas.recuperar();
-	    ges_ventas.Asociar();
 	    /* Parte en la que se solicita el password */
 	    do {
 		// Bucle para solicitud de los datos.
