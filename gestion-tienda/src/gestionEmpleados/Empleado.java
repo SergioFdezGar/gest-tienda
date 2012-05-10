@@ -96,4 +96,16 @@ abstract class Empleado implements Compras {
     }
 
     abstract void calcProductividad(double venta);
+
+    public String getTurno() {
+	String turno = null;
+
+	if (this.getClass().getName().equals("EmpDiurno")) {
+	    turno = "diurno";
+	} else {
+	    turno = "nocturno";
+	}
+
+	return turno;
+    }
 }
