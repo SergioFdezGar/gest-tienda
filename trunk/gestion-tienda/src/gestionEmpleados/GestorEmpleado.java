@@ -63,4 +63,48 @@ public class GestorEmpleado {
 	return nombre;
     }
 
+    public int codigoEmpleado() {
+	int cod = 0;
+
+	if (emp_activo >= 0) {
+	    cod = list_empleados.get(emp_activo).getCod_acceso();
+	}
+	return cod;
+    }
+
+    public int nivelActivo() {
+	int lvl = 0;
+
+	if (emp_activo >= 0) {
+	    lvl = list_empleados.get(emp_activo).getNivel();
+	}
+	return lvl;
+    }
+
+    public double productividadActivo() {
+	double prod = 0;
+
+	if (emp_activo >= 0) {
+	    prod = list_empleados.get(emp_activo).getProductividad();
+	}
+	return prod;
+
+    }
+
+    public String turnoEmpleado() {
+	String turno = null;
+
+	if (emp_activo >= 0) {
+	    turno = list_empleados.get(emp_activo).getTurno();
+	}
+	return turno;
+    }
+
+    public void calcProducitivad(double d) {
+
+	if (emp_activo >= 0) {
+	    list_empleados.get(emp_activo).calcProductividad(d);
+	}
+    }
+
 }
