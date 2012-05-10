@@ -119,7 +119,7 @@ public class Tienda {
     }
 
     public void eliminarFactura() {
-	this.ges_ventas.eliminarFactura();
+	this.ges_ventas.resetear_factura();
 
     }
 
