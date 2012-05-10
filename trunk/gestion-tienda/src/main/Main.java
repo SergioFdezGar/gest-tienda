@@ -10,16 +10,16 @@
 package main;
 
 import gestionEmpleados.GestorEmpleado;
-import gestionEmpleados.NoAccessException;
 import gestionVentas.GestorVentas;
 import gestionVentas.Producto;
-import gestionVentas.VentasException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import tienda.NoAccessException;
+import tienda.VentasException;
 import utilidades.Utilidades;
 
 public class Main {
@@ -163,6 +163,7 @@ public class Main {
 		break;
 
 	    case 3:
+
 		Utilidades
 			.imprimirLinea("\n\n\t\t============[FACTURA]============\n");
 		ArrayList<Producto> fact = ges_ventas.get_factura();
@@ -186,7 +187,7 @@ public class Main {
 
 	    case 4: /* Termina el pedido */
 		/* Se vuelve a iniciaclizar la variable */
-		ges_ventas.eliminarFactura();
+		ges_ventas.resetear_factura();
 
 	    }
 
