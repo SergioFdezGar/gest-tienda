@@ -152,12 +152,8 @@ public class Main {
 	    switch (opcion) {
 
 	    case 1: /* Agregar producto a la factura */
-		try {
-		    agregarProducto(ges_ventas, cantidad);
-		} catch (VentasException e) {
-		    Utilidades.imprimir("\n" + e.getMessage());
-		    ges_ventas.PedirUnidades(prod_selec);
-		}
+
+		agregarProducto(ges_ventas, cantidad);
 
 		break;
 
@@ -401,12 +397,12 @@ public class Main {
 
     }
 
-    private static void agregarProducto(GestorVentas ges_ventas, int cantidad)
-	    throws VentasException {
+    private static void agregarProducto(GestorVentas ges_ventas, int cantidad) {
 	int prod_selec;
 	int unidades;
 	int maximo_unidades;
 	int maximo = ges_ventas.totalProductos() - 1;
+	boolean continuar = true;
 
 	/* Verificamos que se pueden meter mas productos en la factura */
 	if (cantidad == ges_ventas.totalProductosFactura()) {
@@ -436,8 +432,31 @@ public class Main {
 	} while ((prod_selec < 0) || (prod_selec > maximo));
 	/* Cuantas unidades desea agregar del producto */
 
-	ges_ventas.PedirUnidades(prod_selec);
+	do {
+	    unidades = Utilidades
+		    .leerInt("\nCuantas unidades del producto desea? [1-"
+			    + ges_ventas.consultar_unidades(prod_selec) + "] ");
+	    maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
 
+	    if (unidades <= 0 || unidades > maximo_unidades) {
+		if (unidades <= 0)
+		    Utilidades
+			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
+		try {
+		    if (unidades > maximo_unidades)
+			throw new VentasException(333);
+		} catch (VentasException e) {
+		    System.out.print(e.getMessage());
+		    continuar = false;
+		}
+	    } else {
+		// restar unidades a existencias
+		ges_ventas.modificar_unidades(prod_selec,
+			ges_ventas.consultar_unidades(prod_selec) - unidades);
+		ges_ventas.unidades_pro(unidades);
+		continuar = true;
+	    }
+	} while (unidades <= 0 || unidades > maximo_unidades || !continuar);
 	ges_ventas.facturar(prod_selec);
 	Utilidades
 		.imprimirLinea("\n\t[*] Producto y unidades agregados satisfactoriamente [*]\n");
