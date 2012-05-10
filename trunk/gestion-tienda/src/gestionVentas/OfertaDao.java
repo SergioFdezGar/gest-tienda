@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import utilidades.Fichero;
 
 public class OfertaDao {
-
     private String path = null;
     private Fichero fichero = null;
     private int idOferta;
@@ -23,11 +22,9 @@ public class OfertaDao {
 	int total_ofertas;
 	Oferta oferta;
 	ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
-
 	// Coge todas las ofertas que puede haber
 	fichero.leerLinea();
 	total_ofertas = Integer.parseInt(fichero.leerLinea());
-
 	for (int i = 0; i < total_ofertas; i++) {
 	    // Coge idOferta
 	    fichero.leerLinea();
@@ -52,6 +49,7 @@ public class OfertaDao {
 		oferta = new Ofer_Porcentaje(idOferta, tipo_oferta, t_p, maximo);
 		ofertas.add(oferta);
 	    }
+
 	}
 	return ofertas;
     }
