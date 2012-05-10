@@ -3,6 +3,8 @@ package gestionEmpleados;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import tienda.NoAccessException;
+
 public class GestorEmpleado {
 
     private ArrayList<Empleado> list_empleados = new ArrayList<Empleado>();
