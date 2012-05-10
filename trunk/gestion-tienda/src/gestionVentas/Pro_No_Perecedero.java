@@ -32,6 +32,7 @@ public class Pro_No_Perecedero extends Producto {
     public double precio_total(Oferta oferta) {
 
 	int gratis;
+	int cantidad_parcial;
 
 	double precio_parcial;
 
@@ -42,21 +43,27 @@ public class Pro_No_Perecedero extends Producto {
 		    * get_precio();
 	else {
 	    if (oferta.get_tip_oferta().equals("2x1")) {
-		if (cantidad % 2 != 0) {
-		    cantidad = cantidad / 2 + 1;
-		    precio_parcial = cantidad * get_precio();
+		if (cantidad == 1) {
+		    precio_parcial = get_precio();
 		} else {
-		    cantidad = cantidad / 2;
+		    cantidad_parcial = cantidad / 2;
+		    gratis = cantidad - (2 * cantidad_parcial);
+		    cantidad = cantidad - gratis;
 		    precio_parcial = cantidad * get_precio();
 		}
+
 	    } else {
 		if (oferta.get_tip_oferta().equals("3x2")) {
-		    if (cantidad == 2)
-			precio_parcial = cantidad * get_precio();
-		    else {
-			gratis = cantidad / 3;
-			cantidad = cantidad - gratis;
-			precio_parcial = cantidad * get_precio();
+		    if (cantidad == 1) {
+			precio_parcial = get_precio();
+		    } else {
+			if (cantidad == 2)
+			    precio_parcial = cantidad * get_precio();
+			else {
+			    gratis = cantidad / 3;
+			    cantidad = cantidad - gratis;
+			    precio_parcial = cantidad * get_precio();
+			}
 		    }
 		} else {
 		    precio_parcial = cantidad * get_precio();
