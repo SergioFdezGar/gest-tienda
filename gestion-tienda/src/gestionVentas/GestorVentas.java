@@ -3,6 +3,7 @@ package gestionVentas;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import tienda.VentasException;
 import utilidades.Utilidades;
 
 public class GestorVentas {
@@ -70,7 +71,7 @@ public class GestorVentas {
     public double calculo_factura() {
 	double total_factura = 0;
 	int idOferta;
-	// se añaden las unidades a los productos
+	// se aï¿½aden las unidades a los productos
 	for (int i = 0; i < factura.size(); i++) {
 	    factura.get(i).set_cantidad(unidades.get(i));
 	}
