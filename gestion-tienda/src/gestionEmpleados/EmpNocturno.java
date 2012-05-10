@@ -29,11 +29,11 @@ public class EmpNocturno extends Empleado {
 	    }
 	    break;
 	case 2:
-	    setProductividad(getProductividad() + (GR_NIVEL_2 + venta * plus));
+	    setProductividad(getProductividad() + (GR_NIVEL_2 + (venta * plus)));
 	    break;
 
 	case 3:
-	    setProductividad(getProductividad() + (GR_NIVEL_3 + venta * plus));
+	    setProductividad(getProductividad() + (GR_NIVEL_3 + (venta * plus)));
 	    break;
 
 	default:

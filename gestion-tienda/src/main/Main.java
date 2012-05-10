@@ -111,8 +111,8 @@ public class Main {
 	Utilidades.imprimirLinea(" -> Nombre: " + shop.nombreEmpleado());
 	Utilidades.imprimirLinea(" -> Nivel: " + shop.nivelEmpleado());
 	Utilidades.imprimirLinea(" -> Turno: " + shop.turnoEmpleado());
-	Utilidades.imprimirLinea(" -> Productividad: "
-		+ shop.productividadEmpleado());
+	System.out.printf(" -> Productividad: %.2f",
+		shop.productividadEmpleado());
 
     }
 
@@ -164,8 +164,8 @@ public class Main {
 		}
 		Utilidades
 			.imprimirLinea("\t\t----------------------------------");
-		Utilidades.imprimirLinea("\t\tTotal Precio:\t\t"
-			+ shop.calculo_factura() + " Euros" + "\n");
+		System.out.printf("\t\tTotal Precio:\t\t%.2f Euros\n",
+			shop.calculo_factura());
 
 		/* Agregamos el empleado que realiza el pedido */
 		Utilidades.imprimirLinea("\t\tAtendido por: "
