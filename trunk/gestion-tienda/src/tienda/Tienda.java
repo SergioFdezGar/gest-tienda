@@ -189,4 +189,32 @@ public class Tienda {
 	return this.ges_empleado.nombreActivo();
     }
 
+    public int codigoEmpleado() {
+	return this.ges_empleado.codigoEmpleado();
+    }
+
+    public String nombreEmpleado() {
+	return this.ges_empleado.nombreActivo();
+
+    }
+
+    public int nivelEmpleado() {
+
+	return this.ges_empleado.nivelActivo();
+    }
+
+    public double productividadEmpleado() {
+
+	return this.ges_empleado.productividadActivo();
+    }
+
+    public String turnoEmpleado() {
+	return this.ges_empleado.turnoEmpleado();
+    }
+
+    public void calcProductividad(double d) {
+	this.ges_empleado.calcProducitivad(d);
+
+    }
 }
+
