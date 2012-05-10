@@ -148,10 +148,6 @@ public class GestorVentas {
 	return factura.size();
     }
 
-    public void eliminarFactura() {
-	this.factura = new ArrayList<Producto>();
-    }
-
     public void unidades_pro(int unidades) {
 	this.unidades.add(unidades);
     }
@@ -182,5 +178,10 @@ public class GestorVentas {
 		unidades_pro(unidad);
 	    }
 	} while (unidad <= 0 || unidad > maximo_unidades);
+    }
+
+    public void resetear_factura() {
+	factura.clear();
+	unidades.clear();
     }
 }
