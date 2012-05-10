@@ -10,7 +10,6 @@
 package tienda;
 
 import gestionEmpleados.GestorEmpleado;
-import gestionEmpleados.NoAccessException;
 import gestionVentas.GestorVentas;
 import gestionVentas.Producto;
 
