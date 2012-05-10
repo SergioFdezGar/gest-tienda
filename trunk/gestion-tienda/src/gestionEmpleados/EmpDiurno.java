@@ -6,7 +6,7 @@ public class EmpDiurno extends Empleado {
 
     public EmpDiurno(int id, String nom, String pass, int lvl, double reten) {
 	super(id, nom, pass, lvl);
-	this.retencion = reten;
+	this.retencion = reten / 100;
     }
 
     /**
@@ -30,27 +30,23 @@ public class EmpDiurno extends Empleado {
 	switch (super.getNivel()) {
 	case 1:
 	    // Retencion 0
-	    setProductividad(getProductividad() + GR_NIVEL_1 + venta);
+	    setProductividad(getProductividad() + GR_NIVEL_1);
 
 	    break;
 
 	case 2:
-	    if (venta >= MAX3) {
-		setProductividad(getProductividad() + GR_NIVEL_2 + venta);
+	    if (venta >= MAX2) {
+		setProductividad(getProductividad() + GR_NIVEL_2);
 	    } else {
-		setProductividad(getProductividad() + GR_NIVEL_2 + venta
-			- retencion);
+		setProductividad(getProductividad()
+			+ (GR_NIVEL_2 - (GR_NIVEL_2 * retencion)));
 	    }
 	    break;
 
 	case 3:
-	    if (venta >= MAX1) {
-		setProductividad(getProductividad() + GR_NIVEL_3 + venta);
-		setProductividad(getProductividad()
-			+ (GR_NIVEL_3 - (GR_NIVEL_3 * 0.04)));
-	    } else {
-		setProductividad(getProductividad() + GR_NIVEL_3 + venta);
-	    }
+	    setProductividad(getProductividad()
+		    + (GR_NIVEL_3 - (GR_NIVEL_3 * retencion)));
+
 	    break;
 
 	default:

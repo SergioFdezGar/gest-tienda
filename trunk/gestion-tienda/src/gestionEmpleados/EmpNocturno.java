@@ -13,7 +13,7 @@ public class EmpNocturno extends Empleado {
      */
     public EmpNocturno(int id, String nom, String pass, int lvl, double plus) {
 	super(id, nom, pass, lvl);
-	this.plus = plus;
+	this.plus = plus / 100;
     }
 
     @Override
@@ -23,10 +23,9 @@ public class EmpNocturno extends Empleado {
 	case 1:
 	    if (venta >= MAX2) {
 		setProductividad(getProductividad()
-			+ (2 * GR_NIVEL_1 + venta * plus));
+			+ (2 * GR_NIVEL_1 + (venta * plus)));
 	    } else {
-		setProductividad(getProductividad()
-			+ (GR_NIVEL_1 + venta * plus));
+		setProductividad(getProductividad() + (GR_NIVEL_1));
 	    }
 	    break;
 	case 2:
