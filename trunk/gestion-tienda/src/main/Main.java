@@ -1,5 +1,5 @@
 /**
- * Clase Main
+ * Clase Tienda
  *      
  * Version 1.0
  * 
@@ -9,8 +9,6 @@
 
 package main;
 
-import gestionEmpleados.GestorEmpleado;
-import gestionVentas.GestorVentas;
 import gestionVentas.Producto;
 
 import java.io.FileNotFoundException;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import tienda.NoAccessException;
-import tienda.VentasException;
+import tienda.Tienda;
 import utilidades.Utilidades;
 
 public class Main {
@@ -31,114 +29,104 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-	boolean valido;
-
-	/* Arranque del sub_sistema de Empleados */
-
 	try {
-	    GestorEmpleado ges_empleado = new GestorEmpleado("empleados.txt");
-	    ges_empleado.recuperar();
 
-	    /* Arranque del sub-sistema de GestorVentas */
-	    GestorVentas ges_ventas = new GestorVentas("productos.txt",
+	    Tienda tienda = new Tienda("empleados.txt", "productos.txt",
 		    "ofertas.txt");
-	    ges_ventas.recuperar();
-	    /* Parte en la que se solicita el password */
+
 	    do {
-		// Bucle para solicitud de los datos.
+		boolean valido;
+		do {
+		    // Bucle para solicitud de los datos.
+		    valido = login(tienda);
+		    while ((valido)) {
+			int opcion = -1;
 
-		Utilidades
-			.imprimirLinea("\n\t=========[Sistema de Autenticacion]=========\n");
+			opcion = menuPrincipal(); /* Mostramos el menu principal */
 
-		valido = autenticacion(ges_empleado);
+			switch (opcion) {
+			case 1: // Hacer Pedido
+			    hacerPedido(tienda);
 
-		// if (!valido) {
-		// Utilidades
-		// .imprimirLinea("\n  [!] Usuario y/o password no validas, intentelo de nuevo [!]\n\n");
-		// }
+			    break;
 
-		/**
-		 * Bucle para mostrar el menu principal y dentro de el, los
-		 * sub-menus
-		 */
-		while ((valido)) {
-		    int opcion = -1;
+			case 2: // Modificar producto int producto = -1; //
+				// Primero listar los productos
+				// tienda.listarProductos();
+			    int producto = -1; // Primero listar los productos
+			    listarProductos(tienda); // Solicitar cual es el
+						     // producto a modificar
+			    // Solicitar cual es el producto a modificar
 
-		    opcion = menuPrincipal(); /* Mostramos el menu principal */
+			    do {
+				producto = Utilidades
+					.leerInt("\n Numero (#) del producto a modificar? [0-"
+						+ (tienda.totalProductos() - 1)
+						+ "]: ");
 
-		    switch (opcion) {
+				if (producto < 0
+					|| producto > (tienda.totalProductos() - 1)) {
+				    Utilidades
+					    .imprimirLinea("\n\t[!] NO EXISTE EL PRODUCTO, respete el rango mostrado. [!]\n");
+				}
 
-		    case 1: // Hacer Pedido
-			hacerPedido(ges_ventas, ges_empleado);
-			break;
+			    } while (producto < 0
+				    || producto > (tienda.totalProductos() - 1));
 
-		    case 2: // Modificar producto
+			    modificarProducto(menuModificarProducto(),
+				    producto, tienda);
+			    break;
 
-			int producto = -1;
-			// Primero listar los productos
-			listarProductos(ges_ventas);
-			// Solicitar cual es el producto a modificar
+			case 3: // Cambiar contrasenia
+			    cambioPass(tienda);
+			    break;
 
-			do {
-			    producto = Utilidades
-				    .leerInt("\n Numero (#) del producto a modificar? [0-"
-					    + (ges_ventas.totalProductos() - 1)
-					    + "]: ");
+			case 4: // Log Out
+				// Mostramos los datos del empleado desconectado
+			    productividadEmpleado(tienda);
+			    valido = tienda.logOut();
+			    break;
 
-			    if (producto < 0
-				    || producto > (ges_ventas.totalProductos() - 1)) {
-				Utilidades
-					.imprimirLinea("\n\t[!] NO EXISTE EL PRODUCTO, respete el rango mostrado. [!]\n");
-			    }
-
-			} while (producto < 0
-				|| producto > (ges_ventas.totalProductos() - 1));
-
-			modificarProducto(menuModificarProducto(), producto,
-				ges_ventas);
-			ges_ventas.guardar();
-
-			break;
-
-		    case 3: // Cambiar contrasenia
-			cambioPass(ges_empleado);
-			break;
-
-		    case 4: // Log Out
-			valido = ges_empleado.logOut();
-			break;
-
-		    default: // Volver a solicitar un valor correcto
-			Utilidades
-				.imprimirLinea("\n\t[!] El valor es incorrecto, elija [1-4] [!]\n");
+			default: // Volver a solicitar un valor correcto
+			    Utilidades
+				    .imprimirLinea("\n\t[!] El valor es incorrecto, elija [1-4] [!]\n");
+			}
 		    }
-		}
 
+		} while (true);
 	    } while (true);
-
 	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	    errorFile();
-	    System.exit(0);
-	} catch (IOException e) {
-	    e.printStackTrace();
-	    errorIo();
+
+	} catch (Exception e) {
+
 	}
 
     }
 
-    private static void hacerPedido(GestorVentas ges_ventas,
-	    GestorEmpleado ges_empleado) {
+    private static void productividadEmpleado(Tienda shop) {
+
+	Utilidades
+		.imprimirLinea("\n\n\t\t============[Datos del empleado desconectado.]============\n");
+	Utilidades.imprimirLinea(" -> Codigo: " + shop.codigoEmpleado());
+	Utilidades.imprimirLinea(" -> Nombre: " + shop.nombreEmpleado());
+	Utilidades.imprimirLinea(" -> Nivel: " + shop.nivelEmpleado());
+	Utilidades.imprimirLinea(" -> Turno: " + shop.turnoEmpleado());
+	Utilidades.imprimirLinea(" -> Productividad: "
+		+ shop.productividadEmpleado());
+
+    }
+
+    private static void hacerPedido(Tienda shop) {
 	int opcion;
 	int cantidad; /* Numero de productos que desea pedir */
-	int maximo = ges_ventas.totalProductos(); /* Productos disponibles */
+	int maximo = shop.totalProductos(); /* Productos disponibles */
 
 	do {
 	    cantidad = Utilidades
 		    .leerInt("\nCuantos productos desea comprar? ");
 
 	    if (cantidad < 1 || cantidad > maximo) {
-		Utilidades.imprimirLinea("\n\t[!] Comom minimo 1, maximo "
+		Utilidades.imprimirLinea("\n\t[!] Como minimo 1, maximo "
 			+ maximo + ". [!]\n");
 	    }
 
@@ -152,22 +140,21 @@ public class Main {
 	    switch (opcion) {
 
 	    case 1: /* Agregar producto a la factura */
-
-		agregarProducto(ges_ventas, cantidad);
+		agregarProducto(shop, cantidad);
 
 		break;
 
 	    case 2: /* Mostramos el total de la factura */
-		System.out.printf("\nEl precio total es: %.2f  Euros\n",
-			ges_ventas.calculo_factura());
+		Utilidades.imprimirLinea("\nEl precio total es:"
+			+ shop.calculo_factura() + " Euros\n");
 		break;
 
 	    case 3:
-
 		Utilidades
 			.imprimirLinea("\n\n\t\t============[FACTURA]============\n");
-		ArrayList<Producto> fact = ges_ventas.get_factura();
-		ArrayList<Integer> uni = ges_ventas.get_unidades();
+
+		ArrayList<Producto> fact = shop.get_factura();
+		ArrayList<Integer> uni = shop.get_unidades();
 
 		for (int i = 0; i < fact.size(); i++) {
 		    Utilidades.imprimirLinea("\t\t" + fact.get(i).get_codigo()
@@ -177,104 +164,27 @@ public class Main {
 		}
 		Utilidades
 			.imprimirLinea("\t\t----------------------------------");
-		System.out.printf("\t\tTotal Precio:\t\t%.2f Euros\n",
-			ges_ventas.calculo_factura());
+		Utilidades.imprimirLinea("\t\tTotal Precio:\t\t"
+			+ shop.calculo_factura() + " Euros" + "\n");
 
 		/* Agregamos el empleado que realiza el pedido */
 		Utilidades.imprimirLinea("\t\tAtendido por: "
-			+ ges_empleado.nombreActivo());
+			+ shop.nombreActivo());
+
 		break;
 
 	    case 4: /* Termina el pedido */
+		/* Comprobamos que ha finalizado la venta */
+		if (cantidad == shop.totalProductosFactura()) {
+		    shop.calcProductividad(shop.calculo_factura());
+		}
 		/* Se vuelve a iniciaclizar la variable */
-		ges_ventas.resetear_factura();
+		shop.eliminarFactura();
 
 	    }
 
 	} while (opcion != 4);
 	// -----------------------------------------------------------
-    }
-
-    private static void modificarProducto(int seleccion, int producto,
-	    GestorVentas ges_ventas) {
-
-	boolean cambio = false;
-	int unidades;
-
-	do {
-
-	    Utilidades.imprimir("  Introduza nuevo ");
-
-	    switch (seleccion) {
-	    case 1: // Nombre
-		Utilidades.imprimir(" nombre: ");
-		String nombre = Utilidades.lectura();
-
-		if (ges_ventas.posNombre(nombre) < 0) {
-		    ges_ventas.modificar_nombre(producto, nombre);
-		    cambio = true;
-		}
-
-		break;
-
-	    case 2: // Precio
-		double precio = Utilidades.leerDouble(" precio: ");
-		ges_ventas.modificar_precio(producto, precio);
-		cambio = true;
-
-		break;
-
-	    case 3: // Codigo
-		int codigo = Utilidades.leerInt(" codigo: ");
-		if (ges_ventas.posCodigo(codigo) < 0) {
-		    ges_ventas.modificar_codigo(producto, codigo);
-		    cambio = true;
-		}
-		break;
-	    case 4: // Unidades
-		do {
-		    unidades = Utilidades.leerInt(" unidades: ");
-		    if (unidades <= 0)
-			Utilidades
-				.imprimirLinea("\n\t[!] Error al introducir las unidades, intentelo de nuevo [!]\n");
-		} while (unidades <= 0);
-		ges_ventas.modificar_unidades(producto,
-			(unidades + ges_ventas.consultar_unidades(producto)));
-		cambio = true;
-		break;
-
-	    }
-
-	    if (cambio) {
-		Utilidades
-			.imprimirLinea("El producto ha sido modificado satisfactoriamente.");
-	    } else {
-		Utilidades
-			.imprimirLinea("El campo que desea modificar ya existe, vuelva a intentarlo.");
-	    }
-
-	} while (!cambio);
-
-    }
-
-    private static boolean autenticacion(GestorEmpleado gest_emp) {
-	int cod = 0;
-	String pass = null;
-	boolean b = false;
-
-	cod = Utilidades.leerInt("  -> Codigo de acceso: ");
-
-	Utilidades.imprimir("  -> Password: ");
-	pass = Utilidades.lectura();
-	try {
-	    if (gest_emp.logIn(cod, pass) >= 0) {
-		b = true;
-	    }
-
-	} catch (NoAccessException e) {
-	    Utilidades.imprimirLinea("\n  [!] " + e.getMessage() + " [!]\n\n");
-	}
-	return b;
     }
 
     private static int menuPrincipal() {
@@ -306,7 +216,7 @@ public class Main {
 	do {
 	    Utilidades
 		    .imprimirLinea("\n\n\t\t=========[HACER PEDIDO]=========\n");
-	    Utilidades.imprimirLinea("1.1 Agregar un tipo de producto");
+	    Utilidades.imprimirLinea("1.1 Agregar al pedido");
 	    Utilidades.imprimirLinea("1.2 Visualizar precio total");
 	    Utilidades.imprimirLinea("1.3 Imprimir factura");
 	    Utilidades.imprimirLinea("1.4 Terminar pedido");
@@ -347,7 +257,126 @@ public class Main {
 
     }
 
-    private static boolean cambioPass(GestorEmpleado ges_emp) {
+    private static void modificarProducto(int seleccion, int producto,
+	    Tienda shop) {
+
+	boolean cambio = false;
+	int unidades;
+
+	do {
+
+	    Utilidades.imprimir("  Introduza nuevo ");
+
+	    switch (seleccion) {
+	    case 1: // Nombre
+		Utilidades.imprimir(" nombre: ");
+		String nombre = Utilidades.lectura();
+
+		if (shop.posNombre(nombre) < 0) {
+		    shop.modificar_nombre(producto, nombre);
+		    cambio = true;
+		}
+
+		break;
+
+	    case 2: // Precio
+		double precio = Utilidades.leerDouble(" precio: ");
+		shop.modificar_precio(producto, precio);
+		cambio = true;
+
+		break;
+
+	    case 3: // Codigo
+		int codigo = Utilidades.leerInt(" codigo: ");
+		if (shop.posCodigo(codigo) < 0) {
+		    shop.modificar_codigo(producto, codigo);
+		    cambio = true;
+		}
+		break;
+	    case 4: // Unidades
+		do {
+		    unidades = Utilidades.leerInt(" unidades: ");
+		    if (unidades <= 0)
+			Utilidades
+				.imprimirLinea("\n\t[!] Error al introducir las unidades, intentelo de nuevo [!]\n");
+		} while (unidades <= 0);
+		shop.modificar_unidades(producto,
+			(unidades + shop.consultar_unidades(producto)));
+		cambio = true;
+		break;
+
+	    }
+
+	    if (cambio) {
+		Utilidades
+			.imprimirLinea("El producto ha sido modificado satisfactoriamente.");
+	    } else {
+		Utilidades
+			.imprimirLinea("El campo que desea modificar ya existe, vuelva a intentarlo.");
+	    }
+
+	} while (!cambio);
+
+    }
+
+    public static void listarProductos(Tienda tienda) {
+	Utilidades
+		.imprimirLinea("\n\n\t=========[LISTADO DE PRODUCTOS]=========\n");
+	Utilidades
+		.imprimir("\t -------------------------------------------------\n");
+	Utilidades
+		.imprimir("\t|  # | Cod.  | Nombre         | PRECIO | Unidades |\n");
+
+	for (int i = 0; i < tienda.totalProductos(); i++) {
+
+	    System.out
+		    .print("\t|----|-------|----------------|--------|----------|\n");
+	    System.out.printf("\t|%3d | %5d | %14s |  %3.2f | %8d |\n", i,
+		    tienda.consultar_codigo(i), tienda.consultar_nombre(i),
+		    tienda.consultar_precio(i), tienda.consultar_unidades(i));
+	}
+	Utilidades
+		.imprimir("\t -------------------------------------------------\n\n");
+    }
+
+    private static boolean login(Tienda shop) {
+	Utilidades
+		.imprimirLinea("\n\t=========[Sistema de Autenticacion]=========\n");
+	int cod = 0;
+	String pass = null;
+	boolean b = false;
+
+	cod = Utilidades.leerInt("  -> Codigo de acceso: ");
+
+	Utilidades.imprimir("  -> Password: ");
+	pass = Utilidades.lectura();
+
+	try {
+	    if (shop.autenticacion(cod, pass)) {
+		b = true;
+
+	    }
+
+	} catch (NoAccessException e) {
+	    Utilidades.imprimirLinea("\n  [!] " + e.getMessage() + " [!]\n\n");
+	}
+	return b;
+    }
+
+    private void errorFile() {
+	Utilidades
+		.imprimirLinea("\n\t\t[!] ERROR: No se han podido cargar los archivos necesarios. [!]\n");
+	Utilidades
+		.imprimirLinea("\n\t\t[*] Se ha detenido la ejecucion del programa. [*]");
+    }
+
+    private void errorIo() {
+	Utilidades
+		.imprimirLinea("\n\t\t[!] ATENCION: Proceso en el archivo NO completado. [!]\n");
+
+    }
+
+    private static boolean cambioPass(Tienda shop) throws Exception {
 	boolean correcto = false;
 
 	String nueva = null;
@@ -364,14 +393,14 @@ public class Main {
 
 	    if (nueva.equals(repeticion)) {
 		try {
-		    ges_emp.modificarPass(nueva);
+		    shop.modificarPass(nueva);
 		} catch (FileNotFoundException e) {
 		    e.printStackTrace();
-		    errorFile();
+		    // errorFile();
 		    System.exit(0);
 		} catch (IOException e) {
 		    e.printStackTrace();
-		    errorIo();
+		    // errorIo();
 		}
 		Utilidades.imprimirLinea("\n  [*] Password modificada [*]\n\n");
 		correcto = true;
@@ -385,35 +414,21 @@ public class Main {
 	return correcto;
     }
 
-    private static void errorFile() {
-	Utilidades
-		.imprimirLinea("\n\t\t[!] ERROR: No se han podido cargar los archivos necesarios. [!]\n");
-	Utilidades
-		.imprimirLinea("\n\t\t[*] Se ha detenido la ejecucion del programa. [*]");
-    }
-
-    private static void errorIo() {
-	Utilidades
-		.imprimirLinea("\n\t\t[!] ATENCION: Proceso en el archivo NO completado. [!]\n");
-
-    }
-
-    private static void agregarProducto(GestorVentas ges_ventas, int cantidad) {
+    public static void agregarProducto(Tienda shop, int cantidad) {
 	int prod_selec;
 	int unidades;
 	int maximo_unidades;
-	int maximo = ges_ventas.totalProductos() - 1;
-	boolean continuar = true;
+	int maximo = shop.totalProductos() - 1;
 
 	/* Verificamos que se pueden meter mas productos en la factura */
-	if (cantidad == ges_ventas.totalProductosFactura()) {
+	if (cantidad == shop.totalProductosFactura()) {
 	    /* Mensaje de error y vuelta al primer menu */
 	    Utilidades
 		    .imprimirLinea("\n\t[!] ATENCION: No puede agregar mas productos [!]\n");
 	    return;
 	}
 
-	listarProductos(ges_ventas);
+	listarProductos(shop);
 
 	do {
 	    prod_selec = Utilidades.leerInt("\nQue producto desea agregar?: ");
@@ -422,7 +437,7 @@ public class Main {
 		Utilidades.imprimir("\n\t[!] Producto fuera de rango [!]\n");
 	    } else {
 		/* Comprobar si se ha introducido antes el producto. */
-		if (ges_ventas.comprobarFactura(prod_selec) >= 0) {
+		if (shop.comprobarFactura(prod_selec) >= 0) {
 		    /* Mensaje de error */
 		    Utilidades
 			    .imprimirLinea("\n\t[!] El producto ya existe en la factura [!]\n");
@@ -430,59 +445,31 @@ public class Main {
 		}
 
 	    }
-	} while ((prod_selec < 0) || (prod_selec > maximo));
-	/* Cuantas unidades desea agregar del producto */
+	    /* Cuantas unidades desea a�adir del producto */
+	    do {
+		unidades = Utilidades
+			.leerInt("\nCuantas unidades del producto desea? [1-"
+				+ shop.consultar_unidades(prod_selec) + "] ");
+		maximo_unidades = shop.consultar_unidades(prod_selec);
 
-	do {
-	    unidades = Utilidades
-		    .leerInt("\nCuantas unidades del producto desea? [1-"
-			    + ges_ventas.consultar_unidades(prod_selec) + "] ");
-	    maximo_unidades = ges_ventas.consultar_unidades(prod_selec);
-
-	    if (unidades <= 0 || unidades > maximo_unidades) {
-		if (unidades <= 0)
+		if (unidades <= 0 || unidades > maximo_unidades) {
 		    Utilidades
 			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
-		try {
-		    if (unidades > maximo_unidades)
-			throw new VentasException(333);
-		} catch (VentasException e) {
-		    System.out.print(e.getMessage());
-		    continuar = false;
+		} else {
+		    // restar unidades a existencias
+		    Utilidades
+			    .imprimirLinea("\n\t[*] Unidades aniadidas satisfactoriamente [*]\n");
+		    shop.modificar_unidades(prod_selec,
+			    shop.consultar_unidades(prod_selec) - unidades);
+		    shop.unidades_pro(unidades);
 		}
-	    } else {
-		// restar unidades a existencias
-		ges_ventas.modificar_unidades(prod_selec,
-			ges_ventas.consultar_unidades(prod_selec) - unidades);
-		ges_ventas.unidades_pro(unidades);
-		continuar = true;
-	    }
-	} while (unidades <= 0 || unidades > maximo_unidades || !continuar);
-	ges_ventas.facturar(prod_selec);
-	Utilidades
-		.imprimirLinea("\n\t[*] Producto y unidades agregados satisfactoriamente [*]\n");
+	    } while (unidades <= 0 || unidades > maximo_unidades);
 
-    }
+	} while ((prod_selec < 0) || (prod_selec > maximo));
 
-    private static void listarProductos(GestorVentas ges_ventas) {
-	Utilidades
-		.imprimirLinea("\n\n\t=========[LISTADO DE PRODUCTOS]=========\n");
-	Utilidades
-		.imprimir("\t -------------------------------------------------\n");
-	Utilidades
-		.imprimir("\t|  # | Cod.  | Nombre         | PRECIO | Unidades |\n");
+	shop.facturar(prod_selec);
+	Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
 
-	for (int i = 0; i < ges_ventas.totalProductos(); i++) {
-
-	    System.out
-		    .print("\t|----|-------|----------------|--------|----------|\n");
-	    System.out.printf("\t|%3d | %5d | %14s |  %3.2f | %8d |\n", i,
-		    ges_ventas.consultar_codigo(i),
-		    ges_ventas.consultar_nombre(i),
-		    ges_ventas.consultar_precio(i),
-		    ges_ventas.consultar_unidades(i));
-	}
-	Utilidades
-		.imprimir("\t -------------------------------------------------\n\n");
     }
 }
+
