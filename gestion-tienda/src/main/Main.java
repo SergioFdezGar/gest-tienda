@@ -97,8 +97,9 @@ public class Main {
 		} while (true);
 	    } while (true);
 	} catch (FileNotFoundException e) {
-
+	    Utilidades.imprimirLinea("FileNotFoundException");
 	} catch (Exception e) {
+	    Utilidades.imprimirLinea("FileNotFoundException");
 
 	}
 
@@ -281,18 +282,36 @@ public class Main {
 		break;
 
 	    case 2: // Precio
-		double precio = Utilidades.leerDouble(" precio: ");
-		shop.modificar_precio(producto, precio);
-		cambio = true;
+		do {
+		    double precio = Utilidades.leerDouble(" precio: ");
+		    if (precio >= 0) {
+			shop.modificar_precio(producto, precio);
+			cambio = true;
+		    } else {
+			Utilidades
+				.imprimirLinea("\n\t[!] No puede contener un valor negativo. [!]\n");
+			Utilidades.imprimir("  Introduza nuevo ");
+		    }
+		} while (!cambio);
 
 		break;
 
 	    case 3: // Codigo
-		int codigo = Utilidades.leerInt(" codigo: ");
-		if (shop.posCodigo(codigo) < 0) {
-		    shop.modificar_codigo(producto, codigo);
-		    cambio = true;
-		}
+		do {
+		    int codigo = Utilidades.leerInt(" codigo: ");
+		    if (codigo >= 0) {
+
+			if (shop.posCodigo(codigo) < 0) {
+			    shop.modificar_codigo(producto, codigo);
+			    cambio = true;
+			}
+		    } else {
+			Utilidades
+				.imprimirLinea("\n\t[!] No puede contener un valor negativo. [!]\n");
+			Utilidades.imprimir("  Introduza nuevo ");
+		    }
+		} while (!cambio);
+
 		break;
 	    case 4: // Unidades
 		do {
