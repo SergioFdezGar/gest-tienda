@@ -131,7 +131,8 @@ public class Tienda {
 	return this.ges_ventas.comprobarFactura(prod_selec);
     }
 
-    public void modificar_unidades(int prod_selec, int i) {
+    public void modificar_unidades(int prod_selec, int i)
+	    throws VentasException {
 	this.ges_ventas.modificar_unidades(prod_selec, i);
     }
 
@@ -176,7 +177,6 @@ public class Tienda {
     }
 
     public ArrayList<Producto> get_factura() {
-
 	return this.ges_ventas.get_factura();
     }
 
@@ -217,4 +217,3 @@ public class Tienda {
 
     }
 }
-
