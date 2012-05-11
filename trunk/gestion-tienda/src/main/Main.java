@@ -486,6 +486,7 @@ public class Main {
 		if (unidades < 0) {
 		    Utilidades
 			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
+		    repetir = true;
 		} else {
 
 		    try {
