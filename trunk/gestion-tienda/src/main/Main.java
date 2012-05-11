@@ -18,6 +18,7 @@ import java.util.Scanner;
 
 import tienda.NoAccessException;
 import tienda.Tienda;
+import tienda.VentasException;
 import utilidades.Utilidades;
 
 public class Main {
@@ -145,8 +146,8 @@ public class Main {
 		break;
 
 	    case 2: /* Mostramos el total de la factura */
-		Utilidades.imprimirLinea("\nEl precio total es:"
-			+ shop.calculo_factura() + " Euros\n");
+		System.out.printf("\nEl precio total es: %.2f Euros\n",
+			shop.calculo_factura());
 		break;
 
 	    case 3:
@@ -299,9 +300,13 @@ public class Main {
 		    if (unidades <= 0)
 			Utilidades
 				.imprimirLinea("\n\t[!] Error al introducir las unidades, intentelo de nuevo [!]\n");
-		} while (unidades <= 0);
-		shop.modificar_unidades(producto,
-			(unidades + shop.consultar_unidades(producto)));
+		} while (unidades < 0);
+		try {
+		    shop.modificar_unidades(producto,
+			    (unidades + shop.consultar_unidades(producto)));
+		} catch (VentasException e) {
+		    // Ya está controlado por código que no salte la excepcion
+		}
 		cambio = true;
 		break;
 
@@ -419,56 +424,73 @@ public class Main {
 	int unidades;
 	int maximo_unidades;
 	int maximo = shop.totalProductos() - 1;
+	boolean repetir = false;
 
 	/* Verificamos que se pueden meter mas productos en la factura */
 	if (cantidad == shop.totalProductosFactura()) {
 	    /* Mensaje de error y vuelta al primer menu */
 	    Utilidades
 		    .imprimirLinea("\n\t[!] ATENCION: No puede agregar mas productos [!]\n");
-	    return;
-	}
+	} else {
 
-	listarProductos(shop);
+	    listarProductos(shop);
 
-	do {
-	    prod_selec = Utilidades.leerInt("\nQue producto desea agregar?: ");
+	    do {
+		repetir = false;
+		prod_selec = Utilidades
+			.leerInt("\nQue producto desea agregar?: ");
 
-	    if (prod_selec < 0 || prod_selec > maximo) {
-		Utilidades.imprimir("\n\t[!] Producto fuera de rango [!]\n");
-	    } else {
-		/* Comprobar si se ha introducido antes el producto. */
-		if (shop.comprobarFactura(prod_selec) >= 0) {
-		    /* Mensaje de error */
+		if (prod_selec < 0 || prod_selec > maximo) {
 		    Utilidades
-			    .imprimirLinea("\n\t[!] El producto ya existe en la factura [!]\n");
-		    prod_selec = -1;
+			    .imprimir("\n\t[!] Producto fuera de rango [!]\n");
+		    repetir = true;
+		} else {
+		    /* Comprobar si se ha introducido antes el producto. */
+		    if (shop.comprobarFactura(prod_selec) >= 0) {
+			/* Mensaje de error */
+			Utilidades
+				.imprimirLinea("\n\t[!] El producto ya existe en la factura [!]\n");
+			prod_selec = -1;
+			repetir = true;
+		    }
 		}
 
-	    }
-	    /* Cuantas unidades desea a�adir del producto */
+	    } while (repetir);
+
+	    /* Cuantas unidades desea aniaadir del producto */
 	    do {
 		unidades = Utilidades
 			.leerInt("\nCuantas unidades del producto desea? [1-"
 				+ shop.consultar_unidades(prod_selec) + "] ");
 		maximo_unidades = shop.consultar_unidades(prod_selec);
 
-		if (unidades <= 0 || unidades > maximo_unidades) {
+		if (unidades < 0) {
 		    Utilidades
 			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
 		} else {
-		    // restar unidades a existencias
-		    Utilidades
-			    .imprimirLinea("\n\t[*] Unidades aniadidas satisfactoriamente [*]\n");
-		    shop.modificar_unidades(prod_selec,
-			    shop.consultar_unidades(prod_selec) - unidades);
-		    shop.unidades_pro(unidades);
+
+		    try {
+			shop.modificar_unidades(prod_selec,
+				shop.consultar_unidades(prod_selec) - unidades);
+			repetir = false;
+
+		    } catch (VentasException e) {
+			Utilidades.imprimirLinea("\n\t[*]" + e.getMessage()
+				+ " [*]\n");
+			shop.unidades_pro(unidades);
+			repetir = true;
+		    }
+
 		}
-	    } while (unidades <= 0 || unidades > maximo_unidades);
+	    } while (repetir);
 
-	} while ((prod_selec < 0) || (prod_selec > maximo));
-
-	shop.facturar(prod_selec);
-	Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
+	    if (unidades > 0) {
+		shop.facturar(prod_selec);
+		Utilidades
+			.imprimirLinea("\n\t[*] Unidades aniadidas satisfactoriamente [*]\n");
+		Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
+	    }
+	}
 
     }
 }
