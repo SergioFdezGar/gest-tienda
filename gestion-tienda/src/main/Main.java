@@ -11,7 +11,6 @@ package main;
 
 import gestionVentas.Producto;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -30,10 +29,10 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-	try {
 
-	    Tienda tienda = new Tienda("empleados.txt", "productos.txt",
-		    "ofertas.txt");
+	Tienda tienda;
+	try {
+	    tienda = new Tienda("empleados.txt", "productos.txt", "ofertas.txt");
 
 	    do {
 		boolean valido;
@@ -79,7 +78,9 @@ public class Main {
 			    break;
 
 			case 3: // Cambiar contrasenia
+
 			    cambioPass(tienda);
+
 			    break;
 
 			case 4: // Log Out
@@ -96,13 +97,9 @@ public class Main {
 
 		} while (true);
 	    } while (true);
-	} catch (FileNotFoundException e) {
-	    Utilidades.imprimirLinea("FileNotFoundException");
-	} catch (Exception e) {
-	    Utilidades.imprimirLinea("FileNotFoundException");
-
+	} catch (IOException e) {
+	    errorFile();
 	}
-
     }
 
     private static void productividadEmpleado(Tienda shop) {
@@ -387,20 +384,14 @@ public class Main {
 	return b;
     }
 
-    private void errorFile() {
+    private static void errorFile() {
 	Utilidades
 		.imprimirLinea("\n\t\t[!] ERROR: No se han podido cargar los archivos necesarios. [!]\n");
 	Utilidades
 		.imprimirLinea("\n\t\t[*] Se ha detenido la ejecucion del programa. [*]");
     }
 
-    private void errorIo() {
-	Utilidades
-		.imprimirLinea("\n\t\t[!] ATENCION: Proceso en el archivo NO completado. [!]\n");
-
-    }
-
-    private static boolean cambioPass(Tienda shop) throws Exception {
+    private static boolean cambioPass(Tienda shop) {
 	boolean correcto = false;
 
 	String nueva = null;
@@ -416,16 +407,7 @@ public class Main {
 	    repeticion = leer.next();
 
 	    if (nueva.equals(repeticion)) {
-		try {
-		    shop.modificarPass(nueva);
-		} catch (FileNotFoundException e) {
-		    e.printStackTrace();
-		    // errorFile();
-		    System.exit(0);
-		} catch (IOException e) {
-		    e.printStackTrace();
-		    // errorIo();
-		}
+		shop.modificarPass(nueva);
 		Utilidades.imprimirLinea("\n  [*] Password modificada [*]\n\n");
 		correcto = true;
 	    } else {

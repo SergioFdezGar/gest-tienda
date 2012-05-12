@@ -13,12 +13,13 @@ public class OfertaDao {
     private int t_p;
     private int maximo;
 
-    public OfertaDao(String fich) throws IOException {
+    public OfertaDao(String fich) throws NullPointerException, IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
     }
 
-    public ArrayList<Oferta> recuperar() throws IOException {
+    public ArrayList<Oferta> recuperar() throws NumberFormatException,
+	    IOException {
 	int total_ofertas;
 	Oferta oferta;
 	ArrayList<Oferta> ofertas = new ArrayList<Oferta>();

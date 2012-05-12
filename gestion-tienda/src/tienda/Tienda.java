@@ -167,7 +167,7 @@ public class Tienda {
 
     }
 
-    public void modificarPass(String nueva) throws Exception {
+    public void modificarPass(String nueva) {
 	this.ges_empleado.modificarPass(nueva);
     }
 

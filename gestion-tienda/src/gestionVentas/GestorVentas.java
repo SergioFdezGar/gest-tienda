@@ -1,5 +1,6 @@
 package gestionVentas;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -14,20 +15,21 @@ public class GestorVentas {
     private OfertaDao ofer_dao;
     private ArrayList<Integer> unidades = new ArrayList<Integer>();
 
-    public GestorVentas(String fich_1, String fich_2) throws IOException {
+    public GestorVentas(String fich_1, String fich_2)
+	    throws NullPointerException, IOException {
 	produ_dao = new ProductoDao(fich_1);
 	ofer_dao = new OfertaDao(fich_2);
 
     }
 
-    public void recuperar() throws IOException {
+    public void recuperar() throws NumberFormatException, IOException {
 	list_productos = new ArrayList<Producto>();
 	list_productos = produ_dao.recuperar();
 	list_ofertas = new ArrayList<Oferta>();
 	list_ofertas = ofer_dao.recuperar();
     }
 
-    public void guardar() throws IOException {
+    public void guardar() throws FileNotFoundException, IOException {
 	produ_dao.guardar(list_productos);
     }
 
@@ -159,30 +161,6 @@ public class GestorVentas {
     public ArrayList<Integer> get_unidades() {
 	return unidades;
     }
-
-    // public void PedirUnidades(int prod_selec) throws VentasException {
-    // int unidad;
-    // int maximo_unidades;
-    // do {
-    // unidad = Utilidades
-    // .leerInt("\nCuantas unidades del producto desea? [1-"
-    // + consultar_unidades(prod_selec) + "] ");
-    // maximo_unidades = consultar_unidades(prod_selec);
-    //
-    // if (unidad <= 0 || unidad > maximo_unidades) {
-    // if (unidad <= 0)
-    // Utilidades
-    // .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
-    // if (unidad > maximo_unidades)
-    // throw new VentasException(333);
-    // } else {
-    // // restar unidades a existencias
-    // modificar_unidades(prod_selec, consultar_unidades(prod_selec)
-    // - unidad);
-    // unidades_pro(unidad);
-    // }
-    // } while (unidad <= 0 || unidad > maximo_unidades);
-    // }
 
     public void resetear_factura() {
 	factura.clear();

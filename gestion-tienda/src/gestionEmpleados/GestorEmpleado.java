@@ -11,11 +11,11 @@ public class GestorEmpleado {
     private EmpleadoDao emp_dao;
     private int emp_activo = -1;
 
-    public GestorEmpleado(String fich) throws IOException {
+    public GestorEmpleado(String fich) throws NullPointerException, IOException {
 	emp_dao = new EmpleadoDao(fich);
     }
 
-    public void recuperar() throws IOException {
+    public void recuperar() throws NumberFormatException, IOException {
 	list_empleados = new ArrayList<Empleado>();
 	list_empleados = emp_dao.recuperar();
     }
@@ -43,14 +43,9 @@ public class GestorEmpleado {
 	return false;
     }
 
-    public void guardar() throws IOException {
-	emp_dao.guardar(list_empleados);
-    }
-
-    public void modificarPass(String pass) throws IOException {
+    public void modificarPass(String pass) {
 	if (emp_activo >= 0) {
 	    list_empleados.get(emp_activo).setPassword(pass);
-	    guardar();
 	}
     }
 
