@@ -83,15 +83,14 @@ public class GestorVentas {
 	}
 	for (int i = 0; i < factura.size(); i++) {
 	    if (factura.get(i) instanceof Pro_Perecedero) {
-		total_factura = total_factura
-			+ ((Pro_Perecedero) factura.get(i)).precio_total();
+		total_factura += ((Pro_Perecedero) factura.get(i))
+			.precio_total();
 	    } else {
 		idOferta = ((Pro_No_Perecedero) factura.get(i)).get_idOferta();
 		for (int z = 0; z < list_ofertas.size(); z++) {
 		    if (idOferta == list_ofertas.get(z).get_idOferta())
-			total_factura = total_factura
-				+ ((Pro_No_Perecedero) factura.get(i))
-					.precio_total(list_ofertas.get(z));
+			total_factura += ((Pro_No_Perecedero) factura.get(i))
+				.precio_total(list_ofertas.get(z));
 		}
 	    }
 	}
