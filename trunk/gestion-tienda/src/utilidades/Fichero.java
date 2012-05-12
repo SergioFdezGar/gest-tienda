@@ -38,7 +38,8 @@ public class Fichero {
 	abrirArchivo(file, modo);
     }
 
-    public Fichero(String file, String modo) throws IOException {
+    public Fichero(String file, String modo) throws NullPointerException,
+	    IOException {
 	// Por defecto se abre como sólo lectura;
 	abrirArchivo(file, modo);
     }
@@ -51,7 +52,8 @@ public class Fichero {
      *            Variable de tipo File
      * @throws IOException
      */
-    public void crearArchivo(File fich, String modo) throws IOException {
+    public void crearArchivo(File fich, String modo)
+	    throws FileNotFoundException, IOException {
 	// En el caso de que el fichero exista, lo eliminamos
 	if (fich.exists()) {
 	    canal_IO.close();
@@ -69,13 +71,16 @@ public class Fichero {
      * @param s
      *            String con el nombre del fichero de texto o con la ruta y
      *            nombre del fichero.
+     * @throws FileNotFoundException
      * @throws IOException
      */
-    public void crearArchivo(String s, String modo) throws IOException {
+    public void crearArchivo(String s, String modo)
+	    throws FileNotFoundException, IOException {
 	crearArchivo(new File(s), modo);
     }
 
-    public void abrirArchivo(File fich, String modo) throws IOException {
+    public void abrirArchivo(File fich, String modo)
+	    throws FileNotFoundException, IOException {
 	// En el caso de que el fichero no exista, lo creamos
 	if (!fich.exists()) {
 	    crearArchivo(fich, modo); // El fichero queda enlazado en
@@ -86,7 +91,8 @@ public class Fichero {
 	canal_IO = new RandomAccessFile(fichero, modo);
     }
 
-    public void abrirArchivo(String s, String modo) throws IOException {
+    public void abrirArchivo(String s, String modo)
+	    throws FileNotFoundException, IOException {
 	abrirArchivo(new File(s), modo);
     }
 
@@ -116,9 +122,10 @@ public class Fichero {
      * 
      * @param cad
      *            String con la cadena de texto a escribir en el texto.
+     * @throws FileNotFoundException
      * @throws IOException
      */
-    public void escribir(String cad) throws IOException {
+    public void escribir(String cad) throws FileNotFoundException, IOException {
 
 	// Comprobamos si el archivo existe.
 	setModo("rw");
@@ -156,7 +163,7 @@ public class Fichero {
      *            fichero.
      * @throws IOException
      */
-    public void cerrar(String s) throws IOException {
+    public void cerrar(String s) throws FileNotFoundException, IOException {
 	cerrar(new File(s));
     }
 }

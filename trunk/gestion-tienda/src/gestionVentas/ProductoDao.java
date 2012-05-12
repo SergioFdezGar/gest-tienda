@@ -1,5 +1,6 @@
 package gestionVentas;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,12 +18,13 @@ public class ProductoDao {
     private int dias;
     private int oferta;
 
-    public ProductoDao(String fich) throws IOException {
+    public ProductoDao(String fich) throws NullPointerException, IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
     }
 
-    public ArrayList<Producto> recuperar() throws IOException {
+    public ArrayList<Producto> recuperar() throws NumberFormatException,
+	    IOException {
 
 	int total_prod = 0;
 	ArrayList<Producto> list_productos = new ArrayList<Producto>();
@@ -75,7 +77,8 @@ public class ProductoDao {
 	return list_productos;
     }
 
-    public void guardar(ArrayList<Producto> list_productos) throws IOException {
+    public void guardar(ArrayList<Producto> list_productos)
+	    throws FileNotFoundException, IOException {
 
 	fichero.crearArchivo(path, "rw");
 

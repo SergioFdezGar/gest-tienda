@@ -1,5 +1,6 @@
 package tienda;
 
+@SuppressWarnings("serial")
 public class VentasException extends Exception {
     private int codigo;
 

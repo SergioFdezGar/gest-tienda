@@ -16,29 +16,13 @@ public class EmpleadoDao {
     private String password;
     private int nivel;
 
-    public EmpleadoDao(String fich) throws IOException {
+    public EmpleadoDao(String fich) throws NullPointerException, IOException {
 	path = fich;
 	fichero = new Fichero(path, "r");
     }
 
-    public void guardar(ArrayList<Empleado> list_empleados) throws IOException {
-
-	fichero.crearArchivo(path, "rw");
-
-	fichero.escribir("empleados:\n" + list_empleados.size());
-
-	for (int i = 0; i < list_empleados.size(); i++) {
-	    fichero.escribir("\nnombre:\n" + list_empleados.get(i).getNombre()
-		    + "\n" + "codigo:\n"
-		    + list_empleados.get(i).getCod_acceso() + "\n"
-		    + "password:\n" + list_empleados.get(i).getPassword());
-	}
-
-	fichero.cerrar(path);
-
-    }
-
-    public ArrayList<Empleado> recuperar() throws IOException {
+    public ArrayList<Empleado> recuperar() throws NumberFormatException,
+	    IOException {
 
 	int total_emp = 0;
 	ArrayList<Empleado> list_empleados = new ArrayList<Empleado>();
