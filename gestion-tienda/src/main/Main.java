@@ -156,11 +156,11 @@ public class Main {
 		ArrayList<Integer> uni = shop.get_unidades();
 
 		for (int i = 0; i < fact.size(); i++) {
-		    Utilidades.imprimirLinea("\t\t" + fact.get(i).get_codigo()
-			    + "\t" + fact.get(i).get_nombre() + "\t"
-			    + uni.get(i) + "\t" + fact.get(i).get_precio()
-			    + " Euros");
+      System.out.printf("\t\t %d\t %s \t %d\t %.2f Euros", fact
+      .get(i).get_codigo(), fact.get(i).get_nombre(), uni
+      .get(i), fact.get(i).get_precio());
 		}
+
 		Utilidades
 			.imprimirLinea("\t\t----------------------------------");
 		System.out.printf("\t\tTotal Precio:\t\t%.2f Euros\n",
