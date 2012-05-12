@@ -423,7 +423,6 @@ public class Main {
     public static void agregarProducto(Tienda shop, int cantidad) {
 	int prod_selec;
 	int unidades;
-	// int maximo_unidades;
 	int maximo = shop.totalProductos() - 1;
 	boolean repetir = false;
 
@@ -465,21 +464,22 @@ public class Main {
 				+ shop.consultar_unidades(prod_selec) + "] ");
 		// maximo_unidades = shop.consultar_unidades(prod_selec);
 
-		if (unidades < 0) {
+		if (unidades <= 0) {
 		    Utilidades
 			    .imprimirLinea("\n\t[!] Error al introducir unidades, valor fuera de rango [!]");
 		    repetir = true;
 		} else {
 
 		    try {
+			if (unidades > shop.consultar_unidades(prod_selec))
+			    throw new VentasException(333);
 			shop.modificar_unidades(prod_selec,
 				shop.consultar_unidades(prod_selec) - unidades);
 			repetir = false;
 
 		    } catch (VentasException e) {
 			Utilidades.imprimirLinea("\n\t[*] " + e.getMessage()
-				+ " [*]\n");
-			shop.unidades_pro(unidades);
+				+ " [*]");
 			repetir = true;
 		    }
 
@@ -489,7 +489,7 @@ public class Main {
 	    if (unidades > 0) {
 		shop.facturar(prod_selec, unidades);
 		Utilidades
-			.imprimirLinea("\n\t[*] Unidades aniadidas satisfactoriamente [*]\n");
+			.imprimirLinea("\n\t[*] Unidades agregadas satisfactoriamente [*]\n");
 		Utilidades.imprimirLinea("\n\t[*] Producto agregado [*]\n");
 	    }
 	}
