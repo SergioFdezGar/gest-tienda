@@ -120,7 +120,6 @@ public class Tienda {
 
     public void eliminarFactura() {
 	this.ges_ventas.resetear_factura();
-
     }
 
     public int totalProductosFactura() {
@@ -141,8 +140,8 @@ public class Tienda {
 
     }
 
-    public void facturar(int prod_selec) {
-	this.ges_ventas.facturar(prod_selec);
+    public void facturar(int prod_selec, int unidades) {
+	this.ges_ventas.facturar(prod_selec, unidades);
 
     }
 

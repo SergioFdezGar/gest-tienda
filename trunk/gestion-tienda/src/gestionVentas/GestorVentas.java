@@ -43,11 +43,11 @@ public class GestorVentas {
 	list_productos.get(i).set_precio(prec);
     }
 
-    public void modificar_unidades(int i, int unidades) throws VentasException {
-	if (unidades < 0)
+    public void modificar_unidades(int i, int cant) throws VentasException {
+	if (cant < 0)
 	    throw new VentasException(333);
 	else
-	    list_productos.get(i).set_unidades(unidades);
+	    list_productos.get(i).set_unidades(cant);
     }
 
     public int consultar_codigo(int i) {
@@ -66,14 +66,16 @@ public class GestorVentas {
 	return list_productos.get(i).get_unidades();
     }
 
-    public void facturar(int i) {
+    public void facturar(int i, int cant) {
 	factura.add(list_productos.get(i));
+	Integer total = (Integer) cant;
+	unidades.add(total);
     }
 
     public double calculo_factura() {
 	double total_factura = 0;
 	int idOferta;
-	// se a�aden las unidades a los productos
+	// se aniaden las unidades a los productos
 	for (int i = 0; i < factura.size(); i++) {
 	    factura.get(i).set_cantidad(unidades.get(i));
 	}
@@ -98,7 +100,7 @@ public class GestorVentas {
 	return factura;
     }
 
-    // Parte que se encarga de decirnos si existe un producto según su nombre
+    // Parte que se encarga de decirnos si existe un producto segun su nombre
     public int posNombre(String nom) {
 
 	int posicion = -1;
