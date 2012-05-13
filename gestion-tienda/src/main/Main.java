@@ -156,14 +156,13 @@ public class Main {
 		ArrayList<Integer> uni = shop.get_unidades();
 
 		for (int i = 0; i < fact.size(); i++) {
-      System.out.printf("\t\t %d\t %s \t %d\t %.2f Euros", fact
-      .get(i).get_codigo(), fact.get(i).get_nombre(), uni
-      .get(i), fact.get(i).get_precio());
+		    System.out.printf("\t\t %d\t %s\t %d\t %.2f Euros\n", fact
+			    .get(i).get_codigo(), fact.get(i).get_nombre(), uni
+			    .get(i), fact.get(i).get_precio());
 		}
-
 		Utilidades
-			.imprimirLinea("\t\t----------------------------------");
-		System.out.printf("\t\tTotal Precio:\t\t%.2f Euros\n",
+			.imprimirLinea("\n\t\t----------------------------------");
+		System.out.printf("\t\tTotal Precio:\t\t %.2f Euros\n",
 			shop.calculo_factura());
 
 		/* Agregamos el empleado que realiza el pedido */
